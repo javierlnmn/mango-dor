@@ -39,11 +39,28 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
+    # Tailwind
+    'tailwind',
+    'theme',
+    'django_browser_reload',
+
+    # Apps
+    'web',
     'candidates',
     'voting',
 ]
 
+# Jet
 X_FRAME_OPTIONS = 'SAMEORIGIN'
+
+# Tailwind
+TAILWIND_APP_NAME= 'theme'
+
+
+INTERNAL_IPS = [
+    '127.0.0.1',
+]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -53,6 +70,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    # Auto browser reload
+    "django_browser_reload.middleware.BrowserReloadMiddleware",
 ]
 
 ROOT_URLCONF = 'mangodor.urls'

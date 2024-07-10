@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% include 'web/base/head.html' %}
+
+<body>
+
+    {% include 'web/base/header.html' %}
+
+    {% block contenido %}
+    {% endblock %}
+
+    {% include 'web/base/footer.html' %}
+
+    
+    {% block scripts %}
+    {% endblock %}
+
+</body>
+
+</html>
