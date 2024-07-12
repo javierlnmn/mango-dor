@@ -15,14 +15,14 @@ git clone https://github.com/javierlnmn/mango-dor.git
 Navigate into the project folder and create a python virtualenv there:
 ```
 cd mango-dor
-python -m venv .env
+python -m venv .venv
 ```
 
 Activate the virtualenv:
 ```
-.env\Scripts\activate (Windows)
+.venv\Scripts\activate (Windows)
 or
-source ./.env/bin/activate (Linux / MacOS)
+source ./.venv/bin/activate (Linux / MacOS)
 ```
 
 Once activated, install the requirements in the python virtualenv:
