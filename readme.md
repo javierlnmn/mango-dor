@@ -20,17 +20,23 @@ python -m venv .env
 
 Activate the virtualenv:
 ```
-./.env/bin/activate
+.env\Scripts\activate (Windows)
 or
-source ./.env/bin/activate
+source ./.env/bin/activate (Linux / MacOS)
 ```
 
 Once activated, install the requirements in the python virtualenv:
 ```
-pip install -r requiements.txt
+pip install -r requirements.txt
 ```
 
-To run the project, you will need to run the server and also tailwind build (in two separated terminals):
+Navigate into the `/theme/static_src` directory. Then, install the Node modules:
+
+```
+npm install
+```
+
+Once everything is installed, to run the project you will need to run the server and also tailwind build (in two separated terminals):
 ```
 python manage.py tailwind start
 ```

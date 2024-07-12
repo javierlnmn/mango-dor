@@ -57,6 +57,9 @@ X_FRAME_OPTIONS = 'SAMEORIGIN'
 # Tailwind
 TAILWIND_APP_NAME= 'theme'
 
+from shutil import which
+NPM_BIN_PATH = which("npm")
+
 
 INTERNAL_IPS = [
     '127.0.0.1',
