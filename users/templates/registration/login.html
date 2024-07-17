@@ -1,0 +1,37 @@
+{% extends 'web/_main.html' %}
+{% load static %}
+
+{% block contenido %}
+
+<main class="grid place-items-center">
+
+    <section class="w-11/12 max-w-[1200px] mx-auto py-6">
+        <h1 class="text-center font-black text-4xl uppercase text-gray-100">Inicio de sesión</h1>
+    
+        <div class="max-w-[600px] mx-auto bg-gray-900 bg-opacity-20 rounded-lg p-6 mt-6">
+            <form method="POST" action="{% url 'users:login' %}">
+                {% csrf_token %}
+                <div class="flex flex-col gap-5">
+                    <div class="relative z-0 w-full group">
+                        <input type="username" name="username" id="username" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-amber-500 focus:outline-none focus:ring-0 focus:border-amber-600 peer" placeholder=" " required />
+                        <label for="username" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-amber-600 peer-focus:dark:text-amber-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Username</label>
+                    </div>
+                    
+                    <div class="relative z-0 w-full group">
+                        <input type="password" name="password" id="password" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-amber-500 focus:outline-none focus:ring-0 focus:border-amber-600 peer" placeholder=" " required />
+                        <label for="password" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-amber-600 peer-focus:dark:text-amber-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Password</label>
+                    </div>
+    
+                    <div>
+                        <div class="w-full cursor-pointer inline-block px-12 py-5 text-center bg-amber-500 -skew-x-[20deg] hover:bg-gray-900 text-gray-900 hover:text-gray-100 transition-colors">
+                            <button type="submit" class="inline-block skew-x-[20deg] font-black uppercase">Iniciar Sesión</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>    
+    </section>
+
+</main>
+    
+{% endblock %}

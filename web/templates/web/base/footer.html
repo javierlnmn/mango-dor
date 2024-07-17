@@ -1,6 +1,6 @@
 {% load static %}
 
-<footer class="relative z-20 py-8 bg-gray-800 bg-opacity-75 shadow-md ">
+<footer class="relative z-20 py-8 bg-gray-800 bg-opacity-75 shadow-md mt-auto">
 
     <div class="w-11/12 max-w-[1200px] mx-auto grid grid-cols-4 text-gray-100">
 
@@ -9,16 +9,21 @@
             <a class="transition-colors hover:text-amber-400" href="">Candidatos</a>
             {% if user.is_authenticated %}
                 <a class="transition-colors hover:text-amber-400" href="">Votación</a>
-                <a class="transition-colors hover:text-red-400" href="">Cerrar Sesión</a>
+                <form method="post" action="{% url 'users:logout' %}">
+                    {% csrf_token %}
+                    <button class="transition-colors hover:text-red-400" type="submit">Cerrar Sesión</button>
+                </form>
             {% else %}
-                <a class="transition-colors hover:text-amber-400" href="">Iniciar Sesión</a>
+                <a class="transition-colors hover:text-amber-400" href="{% url 'users:login' %}">Iniciar Sesión</a>
             {% endif %}
         </div>
 
         <div class="col-span-3 grid grid-rows-2 gap-8">
             
             <div class="flex justify-center">
-                <img class="h-20" src="{% static 'media/logo.png' %}" alt="logo.png">
+                <a href="{% url "web:index" %}">
+                    <img class="h-20" src="{% static 'media/logo.png' %}" alt="logo.png">
+                </a>
             </div>
             
             <p class="text-center text-xs self-end">

@@ -3,7 +3,9 @@
 <header class="z-20 transition-colors duration-300 flex justify-center items-center h-24 sticky top-0" id="header">
     <div class="flex w-11/12 max-w-[1200px] mx-auto justify-between items-center text-gray-100">
         <div>
-            <img class="h-16" src="{% static 'media/logo.png' %}" alt="logo.png">
+            <a href="{% url "web:index" %}">
+                <img class="h-16" src="{% static 'media/logo.png' %}" alt="logo.png">
+            </a>
         </div>
 
         <nav class="flex justify-center items-center gap-6">
@@ -11,9 +13,12 @@
             <a class="transition-colors hover:text-amber-400" href="">Candidatos</a>
             {% if user.is_authenticated %}
                 <a class="transition-colors hover:text-amber-400" href="">Votación</a>
-                <a class="transition-colors hover:text-red-400" href="">Cerrar Sesión</a>
+                <form method="post" action="{% url 'users:logout' %}">
+                    {% csrf_token %}
+                    <button class="transition-colors hover:text-red-400" type="submit">Cerrar Sesión</button>
+                </form>
             {% else %}
-                <a class="transition-colors hover:text-amber-400" href="">Iniciar Sesión</a>
+                <a class="transition-colors hover:text-amber-400" href="{% url 'users:login' %}">Iniciar Sesión</a>
             {% endif %}
         </nav>
     </div>

@@ -62,12 +62,12 @@
     <section class="w-11/12 max-w-[1200px] mx-auto py-10 text-gray-100 text-right">
         <h4 class="text-3xl max-md:text-center font-black uppercase">¿Cómo puedo <span class="bg-gradient-to-r from-yellow-400 via-amber-400 to-orange-400 inline-block text-transparent bg-clip-text italic">votar</span>?</h4>
         <p class="mt-4 max-md:text-center">
-            Para votar necesitarás una cuenta, la cual te la suminstrará alguno de nuestros administradores. Si no dispones de una cuenta no puedes votar, eres un/a <i>beta</i>. Aquí no se admiten <i>betas</i>.
+            Para votar necesitarás una <a class="transition-colors !text-amber-300 hover:!text-amber-500" href="{% url 'users:login' %}">cuenta</a>, la cual te la suminstrará alguno de nuestros administradores. Si no dispones de una cuenta no puedes votar, eres un/a <i>beta</i>. Aquí no se admiten <i>betas</i>.
         </p>
         {% if user.is_authenticated %}
         <div>
             <div class="mt-5 w-56 cursor-pointer inline-block px-12 py-6 text-center bg-amber-500 -skew-x-[20deg] hover:bg-gray-900 text-gray-900 hover:text-gray-100 transition-colors">
-                <span class="inline-block skew-x-[20deg] font-black">VOTA</span>
+                <span class="inline-block skew-x-[20deg] font-black uppercase">Vota</span>
             </div>
         </div>
         {% endif %}

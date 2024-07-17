@@ -31,7 +31,7 @@ class Candidate(models.Model):
     linkedin_profile = models.URLField(max_length=200, null=True, blank=True)
 
     def __str__(self):
-        return f'{self.name} {sealf.surname}, {self.age}, {self.nationality.name}'
+        return f'{self.name} {self.surname}, {self.age}, {self.nationality.name}'
     
 
 class CandidateImage(models.Model):
