@@ -1,3 +1,32 @@
-<footer class="relative z-20 pt-4 grid grid-cols-2">
+{% load static %}
+
+<footer class="relative z-20 py-8 bg-gray-800 bg-opacity-75 shadow-md ">
+
+    <div class="w-11/12 max-w-[1200px] mx-auto grid grid-cols-4 text-gray-100">
+
+        <div class="flex flex-col justify-between gap-6">
+            <a class="transition-colors hover:text-amber-400" href="">Categorías</a>
+            <a class="transition-colors hover:text-amber-400" href="">Candidatos</a>
+            {% if user.is_authenticated %}
+                <a class="transition-colors hover:text-amber-400" href="">Votación</a>
+                <a class="transition-colors hover:text-red-400" href="">Cerrar Sesión</a>
+            {% else %}
+                <a class="transition-colors hover:text-amber-400" href="">Iniciar Sesión</a>
+            {% endif %}
+        </div>
+
+        <div class="col-span-3 grid grid-rows-2 gap-8">
+            
+            <div class="flex justify-center">
+                <img class="h-20" src="{% static 'media/logo.png' %}" alt="logo.png">
+            </div>
+            
+            <p class="text-center text-xs self-end">
+                Mango d'Or Awards &copy;. All rights reserved.
+            </p>
+
+        </div>
+
+    </div>
     
 </footer>
