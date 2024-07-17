@@ -65,8 +65,8 @@
             Para votar necesitarás una <a class="transition-colors !text-amber-300 hover:!text-amber-500" href="{% url 'users:login' %}">cuenta</a>, la cual te la suminstrará alguno de nuestros administradores. Si no dispones de una cuenta no puedes votar, eres un/a <i>beta</i>. Aquí no se admiten <i>betas</i>.
         </p>
         {% if user.is_authenticated %}
-        <div>
-            <div class="mt-5 w-56 cursor-pointer inline-block px-12 py-6 text-center bg-amber-500 -skew-x-[20deg] hover:bg-gray-900 text-gray-900 hover:text-gray-100 transition-colors">
+        <div class="max-sm:grid max-sm:place-items-center">
+            <div class="mt-5 w-56 max-sm:w-11/12 cursor-pointer inline-block px-12 py-6 text-center bg-amber-500 -skew-x-[20deg] hover:bg-gray-900 text-gray-900 hover:text-gray-100 transition-colors">
                 <span class="inline-block skew-x-[20deg] font-black uppercase">Vota</span>
             </div>
         </div>
