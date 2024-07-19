@@ -2,9 +2,9 @@
 
 <footer class="relative z-20 py-8 bg-gray-800 bg-opacity-75 shadow-md mt-auto">
 
-    <div class="w-11/12 max-w-[1200px] mx-auto grid grid-cols-4 text-gray-100">
+    <div class="w-11/12 max-w-[1200px] mx-auto grid grid-cols-4 max-md:flex max-md:flex-col max-md:items-center text-gray-100">
 
-        <div class="flex flex-col justify-between gap-6">
+        <div class="text-sm flex flex-col justify-between gap-6 max-md:gap-8 max-md:self-start">
             <a class="transition-colors hover:text-amber-400" href="">Categorías</a>
             <a class="transition-colors hover:text-amber-400" href="">Candidatos</a>
             {% if user.is_authenticated %}
@@ -18,7 +18,7 @@
             {% endif %}
         </div>
 
-        <div class="col-span-3 grid grid-rows-2 gap-8">
+        <div class="col-span-3 grid grid-rows-2 gap-8 max-md:flex max-md:flex-col max-md:gap-6 max-md:mt-12">
             
             <div class="flex justify-center">
                 <a href="{% url "web:index" %}">
@@ -26,7 +26,7 @@
                 </a>
             </div>
             
-            <p class="text-center text-xs self-end">
+            <p class="text-center text-xs self-end max-md:self-auto">
                 Mango d'Or Awards &copy;. All rights reserved.
             </p>
 
