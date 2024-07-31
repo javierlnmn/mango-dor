@@ -62,9 +62,9 @@
                             {% endif %}
                         </div>
                     </div>
-                    <div class="w-11/12 mx-auto mt-auto cursor-pointer inline-block px-12 py-6 text-center bg-amber-500 -skew-x-[20deg] hover:bg-gray-900 text-gray-900 hover:text-gray-100 transition-colors">
-                        <a class="inline-block skew-x-[20deg] font-black uppercase text-2xl">Ver Candidato</a>
-                    </div>
+                    <a href="{% url 'candidates:candidate-detail' candidate.slug %}" class="w-11/12 mx-auto mt-auto cursor-pointer inline-block px-12 py-6 text-center bg-amber-500 -skew-x-[20deg] hover:bg-gray-900 text-gray-900 hover:text-gray-100 transition-colors">
+                        <span class="inline-block skew-x-[20deg] font-black uppercase text-2xl">Ver Candidato</span>
+                    </a>
                 </div>
             {% empty %}
                 <p class="my-6 text-white font-bold text-lg">¡Vaya! Todavía no hay candidatos.</p>

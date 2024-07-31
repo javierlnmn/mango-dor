@@ -8,7 +8,7 @@
     <section class="w-11/12 max-w-[1200px] mx-auto py-6">
         <h1 class="text-center font-black text-4xl uppercase text-gray-100">Inicio de sesión</h1>
     
-        <div class="max-w-[600px] mx-auto bg-gray-900 bg-opacity-20 rounded-lg p-8 mt-6">
+        <div class="max-w-[600px] mx-auto bg-gray-900/20 rounded-lg p-8 mt-6">
             <form method="POST" action="{% url 'users:login' %}">
                 {% csrf_token %}
                 <div class="flex flex-col gap-8">

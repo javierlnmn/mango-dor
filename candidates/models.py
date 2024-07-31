@@ -29,6 +29,7 @@ class Candidate(models.Model):
     skills = models.TextField(null=True, blank=True)
     languages = models.TextField(null=True, blank=True)
     linkedin_profile = models.URLField(max_length=200, null=True, blank=True)
+    slug = models.SlugField(null=False, unique=True)
     
     @property
     def main_image(self):

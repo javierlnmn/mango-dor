@@ -11,19 +11,21 @@ class GenderAdmin(admin.ModelAdmin):
 
 @admin.register(Candidate)
 class CandidateAdmin(admin.ModelAdmin):
-    list_display = ('name', 'surname', 'age', 'linkedin_profile')
+    list_display = ('name', 'surname', 'age', 'slug')
     search_fields = ('name', 'surname', 'nationality__name', 'gender__name')
     list_filter = ('gender', 'nationality')
     filter_horizontal = ('nationality',)
 
     fieldsets = (
         ('Candidate', {
-            'fields': ('name', 'surname', 'age', 'gender', 'nationality',)
+            'fields': ('name', 'surname', 'age', 'gender', 'nationality', 'slug')
         }),
         ('Additional Information', {
             'fields': ('description', 'education', 'experience', 'skills', 'languages', 'linkedin_profile'),
         }),
     )
+    
+    prepopulated_fields = {"slug": ("name", "surname",)}
 
     class CandidateImageInline(admin.TabularInline):
         model = CandidateImage
