@@ -1,15 +1,6 @@
 from django.contrib import admin
 from .models import Nationality, Gender, Candidate, CandidateImage
 
-@admin.register(CandidateImage)
-class CandidateImageAdmin(admin.ModelAdmin):
-    list_display = ('candidate', 'image_preview')
-
-    def image_preview(self, obj):
-        return obj.image.url if obj.image else None
-
-    image_preview.short_description = 'Image Preview'
-
 @admin.register(Nationality)
 class NationalityAdmin(admin.ModelAdmin):
     list_display = ('code', 'name')

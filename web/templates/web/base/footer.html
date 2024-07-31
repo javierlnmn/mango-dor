@@ -6,7 +6,7 @@
 
         <div class="text-sm flex flex-col justify-between gap-6 max-md:gap-8 max-md:self-start">
             <a class="transition-colors hover:text-amber-400" href="">Categorías</a>
-            <a class="transition-colors hover:text-amber-400" href="">Candidatos</a>
+            <a class="transition-colors hover:text-amber-400" href="{% url 'candidates:candidates-list' %}">Candidatos</a>
             {% if user.is_authenticated %}
                 <a class="transition-colors hover:text-amber-400" href="">Votación</a>
                 <form method="post" action="{% url 'users:logout' %}">

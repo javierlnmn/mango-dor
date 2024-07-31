@@ -29,9 +29,15 @@ class Candidate(models.Model):
     skills = models.TextField(null=True, blank=True)
     languages = models.TextField(null=True, blank=True)
     linkedin_profile = models.URLField(max_length=200, null=True, blank=True)
+    
+    @property
+    def main_image(self):
+        for image in self.images.all():
+            if image.main_image:
+                return image
 
     def __str__(self):
-        return f'{self.name} {self.surname}, {self.age}, {self.nationality.name}'
+        return f'{self.name} {self.surname}, {self.age}'
     
 
 class CandidateImage(models.Model):
