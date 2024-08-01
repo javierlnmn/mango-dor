@@ -32,10 +32,15 @@ class Candidate(models.Model):
     slug = models.SlugField(null=False, unique=True)
     
     @property
+    def nationalities(self):
+        return ", ".join(nationality.name for nationality in self.nationality.all())
+    
+    @property
     def main_image(self):
         for image in self.images.all():
             if image.main_image:
                 return image
+        return None
 
     def __str__(self):
         return f'{self.name} {self.surname}, {self.age}'
