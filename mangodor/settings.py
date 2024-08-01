@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     'django_browser_reload',
 
     # Apps
-    'web',
+    'common',
     'users',
     'candidates',
     'voting',
@@ -197,7 +197,7 @@ MEDIA_URL = "/media/"
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-LOGIN_REDIRECT_URL = "web:index"
-LOGIN_URL = "web:index"
-LOGOUT_REDIRECT_URL = "web:index"
-LOGOUT_URL = "web:index"
+LOGIN_REDIRECT_URL = "common:index"
+LOGIN_URL = "common:index"
+LOGOUT_REDIRECT_URL = "common:index"
+LOGOUT_URL = "common:index"
