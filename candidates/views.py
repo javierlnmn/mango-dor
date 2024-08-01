@@ -8,6 +8,7 @@ from .models import Candidate
 class CandidateListView(ListView):
     model = Candidate
     paginate_by = 6
+    ordering = 'name'
 
 class CandidateDetailView(DetailView):
     model = Candidate
