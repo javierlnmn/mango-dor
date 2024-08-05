@@ -66,13 +66,13 @@
         </div>
 
         {% if candidate.images.count >= 4 %}
-        <div class="my-12">
+        <div class="my-12 mt-24">
             <h4 class="text-6xl max-md:text-4xl uppercase font-black bg-gradient-to-r from-yellow-400 via-amber-400 to-orange-400 inline-block text-transparent bg-clip-text italic">Galería del candidato:</h2>
 
             <div class="mt-8 columns-3 max-md:columns-2 gap-6">
                 {% for image in candidate.images.all %}
                     {% if not image.main_image %}
-                        <img id="image-{{candidate.id}}-{{image.id}}" class="mb-6 cursor-pointer grayscale transition-all hover:grayscale-0 break-inside-avoid rounded-lg" src="{{ image.image.url }}" alt="{{candidate.name}} image {{forloop.counter}}">
+                        <img id="image-{{candidate.id}}-{{image.id}}" class="mb-6 cursor-pointer grayscale transition-all hover:grayscale-0 break-inside-avoid rounded-lg w-full object-cover" src="{{ image.image.url }}" alt="{{candidate.name}} image {{forloop.counter}}">
                     {% endif %}
                 {% endfor %}
             </div>
