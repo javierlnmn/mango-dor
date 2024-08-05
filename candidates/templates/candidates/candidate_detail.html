@@ -4,6 +4,122 @@
 {% block contenido %}
 
 <main class="mt-6">
+    <div class="w-11/12 max-w-[1200px] mx-auto">
+
+        <div class="flex max-md:flex-col items-center">
+            <div class="w-1/3 max-md:w-full min-w-60 flex flex-col items-center">
+                <img class="aspect-1 object-contain object-bottom -mb-10 max-w-[330px] max-h-[330px]" src="{{ candidate.main_image.image.url }}" alt="candidate image">
+                <h4 class="animation-glow w-[120%] text-center text-7xl max-md:text-6xl font-black italic uppercase text-white tracking-[-0.1em]">{{ candidate.name }} {{ candidate.surname }}</h4>
+            </div>
+            <div class="w-2/3 max-md:w-full flex flex-col gap-6 col-span-2 h-full p-6 border-2 border-amber-400/20 border-solid bg-gray-900/20 shadow-lg rounded-lg">
+                <p class="text-white font-bold">{{ candidate.description }}</p>
+                <div class="text-white">
+                    {% if candidate.education %} <p class="text-white">Estudios: {{ candidate.education }}</p> {% endif %}
+                    {% if candidate.experience %} <p class="text-white">Experiencia laboral: {{ candidate.experience }}</p> {% endif %}
+                    {% if candidate.skills %} <p class="text-white">Habilidades: {{ candidate.skills }}</p> {% endif %}
+                    {% if candidate.languages %} <p class="text-white">Idiomas: {{ candidate.languages }}</p> {% endif %}
+                </div>
+                <div class="grid grid-cols-2 gap-4 max-sm:grid-cols-1 text-white">
+                    <div class="flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="min-w-[35px]" width="35" height="35" viewBox="0 0 24 24" stroke-width="1.5" stroke="#9ca3af" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                            <path d="M3 20h18v-8a3 3 0 0 0 -3 -3h-12a3 3 0 0 0 -3 3v8z" />
+                            <path d="M3 14.803c.312 .135 .654 .204 1 .197a2.4 2.4 0 0 0 2 -1a2.4 2.4 0 0 1 2 -1a2.4 2.4 0 0 1 2 1a2.4 2.4 0 0 0 2 1a2.4 2.4 0 0 0 2 -1a2.4 2.4 0 0 1 2 -1a2.4 2.4 0 0 1 2 1a2.4 2.4 0 0 0 2 1c.35 .007 .692 -.062 1 -.197" />
+                            <path d="M12 4l1.465 1.638a2 2 0 1 1 -3.015 .099l1.55 -1.737z" />
+                        </svg>
+                        <p>{{ candidate.age }}</p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="min-w-[35px]" width="38" height="38" viewBox="0 0 24 24" stroke-width="1.5" stroke="#9ca3af" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                            <path d="M5 14h14l-4.5 -4.5l4.5 -4.5h-14v16" />
+                        </svg>
+                        <p>{{ candidate.nationalities }}</p>
+                    </div>
+
+                    <div class="flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="min-w-[35px]" width="35" height="35" viewBox="0 0 24 24" stroke-width="1.5" stroke="#9ca3af" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                            <path d="M11 11m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+                            <path d="M19 3l-5 5" />
+                            <path d="M15 3h4v4" />
+                            <path d="M11 16v6" />
+                            <path d="M8 19h6" />
+                        </svg>
+                        <p>{{candidate.gender.name}}</p>
+                    </div>
+                    {% if candidate.linkedin_profile %}
+                    <a href="{{candidate.linkedin_profile}}" target="_blank" class="flex items-center gap-2 group w-fit hover:text-white transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="min-w-[35px] stroke-gray-400 group-hover:stroke-white transition-colors" width="35" height="35" viewBox="0 0 24 24" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                            <path d="M4 4m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z" />
+                            <path d="M8 11l0 5" />
+                            <path d="M8 8l0 .01" />
+                            <path d="M12 16l0 -5" />
+                            <path d="M16 16v-3a2 2 0 0 0 -4 0" />
+                        </svg>
+                        <p>Ver LinkedIn</p>
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        {% if candidate.images.count >= 4 %}
+        <div class="my-12">
+            <h4 class="text-6xl max-md:text-4xl uppercase font-black bg-gradient-to-r from-yellow-400 via-amber-400 to-orange-400 inline-block text-transparent bg-clip-text italic">Galería del candidato:</h2>
+
+            <div class="mt-8 columns-3 max-md:columns-2 gap-6">
+                {% for image in candidate.images.all %}
+                    {% if not image.main_image %}
+                        <img id="image-{{candidate.id}}-{{image.id}}" class="mb-6 cursor-pointer grayscale transition-all hover:grayscale-0 break-inside-avoid rounded-lg" src="{{ image.image.url }}" alt="{{candidate.name}} image {{forloop.counter}}">
+                    {% endif %}
+                {% endfor %}
+            </div>
+
+            <div id="image-overlay" class="hidden fixed inset-0 bg-black bg-opacity-75 grid place-items-center z-50 p-16">
+                <span id="close-overlay" class="absolute top-4 right-4 text-white text-3xl cursor-pointer">&times;</span>
+                <img id="overlay-image" src="" alt="imagen seleccionada" class="max-w-full max-h-full  rounded-lg">
+            </div>
+
+            <script>
+                const candidateImages = [
+                {% for image in candidate.images.all %}
+                    {% if not image.main_image %}
+                    document.getElementById('image-{{candidate.id}}-{{image.id}}'),
+                    {% endif %}
+                {% endfor %}
+                ];
+                const overlay = document.getElementById('image-overlay');
+                const overlayImage = document.getElementById('overlay-image');
+                const closeOverlay = document.getElementById('close-overlay');
+
+                candidateImages.forEach(image => {
+                    image.addEventListener('click', function() {
+                        overlayImage.src = this.src;
+                        overlay.classList.remove('hidden');
+                        body.classList.add('overflow-hidden');
+
+                    });
+                });
+
+                closeOverlay.addEventListener('click', function() {
+                    overlay.classList.add('hidden');
+                    body.classList.remove('overflow-hidden');
+                });
+
+                overlay.addEventListener('click', function(event) {
+                    if (event.target === overlay) {
+                        overlay.classList.add('hidden');
+                        body.classList.remove('overflow-hidden');
+                    }
+                });
+            </script>
+        </div>
+        {% endif %}
+    
+    </div>
+
 </main>
     
 {% endblock %}
