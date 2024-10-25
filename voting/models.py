@@ -24,7 +24,7 @@ class Vote(models.Model):
     VOTING_POINTS_CHOICES = [
         (1, '1'),
         (2, '2'),
-        (3, '4'),
+        (4, '4'),
     ]
     
     user = models.ForeignKey(User, on_delete=models.CASCADE)

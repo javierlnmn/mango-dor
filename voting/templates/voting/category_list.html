@@ -1,0 +1,69 @@
+{% extends 'web/_main.html' %}
+{% load static %}
+
+{% block contenido %}
+
+<main class="my-6">
+    <div class="w-11/12 max-w-[1200px] mx-auto">
+
+        <div class="grid place-items-center">
+            <h1 class="text-7xl max-md:text-5xl uppercase font-black bg-gradient-to-r from-yellow-400 via-amber-400 to-orange-400 inline-block text-transparent bg-clip-text italic">Categorías</h1>
+            <p class="text-center text-lg italic text-gray-400">Todas y cada una de nuestras categorías han sido confeccionadas por los maestros cerveceros.</p>
+        </div>
+
+        <div class="grid grid-cols-3 mt-8 gap-8 max-md:grid-cols-2 max-sm:flex max-sm:flex-col">
+            {% for category in page_obj %}
+                <div class="border-2 border-amber-400/20 border-solid flex flex-col gap-6 items-center p-6 bg-gray-900/20 shadow-lg rounded-lg">
+                    <h4 class="animation-glow w-[120%] text-center text-6xl max-md:text-5xl font-black italic uppercase text-white tracking-[-0.1em]">{{ category.name }}</h4>
+                    <p class="text-gray-300">{{ category.description }}</p>
+                    <a href="{% url 'voting:category-detail' category.slug %}" class="w-11/12 mx-auto mt-auto cursor-pointer inline-block px-12 py-6 text-center bg-amber-500 -skew-x-[20deg] hover:bg-gray-900 text-gray-900 hover:text-gray-100 transition-colors">
+                        <span class="inline-block skew-x-[20deg] font-black uppercase text-2xl">Ver Categoría</span>
+                    </a>
+                </div>
+            {% empty %}
+                <p class="my-6 text-white font-bold text-lg">¡Vaya! Todavía no hay categorías.</p>
+            {% endfor %}
+        </div>
+
+        <div class="flex px-4 gap-4 w-fit mx-auto justify-center items-center my-8 bg-gray-900/20 shadow-lg rounded-lg h-14 text-white">
+            <a {% if page_obj.has_previous %} href="?page=1" {% endif %} class="grid place-items-center {% if not page_obj.has_previous %} opacity-35 {% endif %}">
+                <svg xmlns="http://www.w3.org/2000/svg" class="stroke-gray-300 {% if page_obj.has_previous %} hover:stroke-white cursor-pointer transition-colors {% endif %}" width="32" height="32" viewBox="0 0 24 24" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                    <path d="M9 11l-4 4l4 4m-4 -4h11a4 4 0 0 0 0 -8h-1" />
+                </svg>
+            </a>
+            <span class="h-full w-px bg-gray-800/70"></span>
+            <a {% if page_obj.has_previous %} href="?page={{ page_obj.previous_page_number }}" {% endif %} class="grid place-items-center {% if not page_obj.has_previous %} opacity-35 {% endif %}">
+                <svg xmlns="http://www.w3.org/2000/svg" class="stroke-gray-300 {% if page_obj.has_previous %} hover:stroke-white cursor-pointer transition-colors {% endif %}" width="32" height="32" viewBox="0 0 24 24" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                    <path d="M15 6l-6 6l6 6" />
+                </svg>
+            </a>
+            <span class="h-full w-px bg-gray-800/70"></span>
+
+            {% for i in paginator.page_range %}
+            <a href="?page={{i}}" class="px-2 {% if i == page_obj.number %} font-bold text-amber-400{% endif %}">
+                {{ i }}
+            </a>
+            <span class="h-full w-px bg-gray-800/70"></span>
+            {% endfor %}
+
+            <a {% if page_obj.has_next %} href="?page={{ page_obj.next_page_number }}" {% endif %} class="grid place-items-center {% if not page_obj.has_next %} opacity-35 {% endif %}">
+                <svg xmlns="http://www.w3.org/2000/svg" class="stroke-gray-300 {% if page_obj.has_next %} hover:stroke-white cursor-pointer transition-colors {% endif %}" width="32" height="32" viewBox="0 0 24 24" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                    <path d="M9 6l6 6l-6 6" />
+                </svg>
+            </a>
+            <span class="h-full w-px bg-gray-800/70"></span>
+            <a {% if page_obj.has_next %} href="?page={{ page_obj.paginator.num_pages }}" {% endif %} class="grid place-items-center {% if not page_obj.has_next %} opacity-35 {% endif %}">
+                <svg xmlns="http://www.w3.org/2000/svg" class="stroke-gray-300 {% if page_obj.has_next %} hover:stroke-white cursor-pointer transition-colors {% endif %}" width="32" height="32" viewBox="0 0 24 24" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                    <path d="M15 14l4 -4l-4 -4" />
+                    <path d="M19 10h-11a4 4 0 1 0 0 8h1" />
+                </svg>
+            </a>
+        </div>
+    </div>
+</main>
+    
+{% endblock %}
