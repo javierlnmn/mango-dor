@@ -3,6 +3,7 @@ from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
 from candidates.models import Candidate
 
+
 class Category(models.Model):
     code = models.CharField(max_length=2, unique=True)
     name = models.CharField(max_length=255)
@@ -14,11 +15,14 @@ class Category(models.Model):
     class Meta:
         verbose_name_plural = 'Categories'
 
+    def user_category_voting_complete(self, user):
+        votes_in_category = self.votes.filter(user=user).count()
+        return False if votes_in_category < 3 else True
+
     def __str__(self):
         return f'{self.name} ({self.code})'
-    
-    
-    
+
+
 class Vote(models.Model):
 
     VOTING_POINTS_CHOICES = [
@@ -27,9 +31,9 @@ class Vote(models.Model):
         (4, '4'),
     ]
     
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    candidate = models.ForeignKey(Candidate, on_delete=models.CASCADE)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='votes')
+    candidate = models.ForeignKey(Candidate, on_delete=models.CASCADE, related_name='votes')
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='votes')
     points = models.IntegerField(choices=VOTING_POINTS_CHOICES)
     
     class Meta:

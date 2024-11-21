@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class Nationality(models.Model):
     code = models.CharField(max_length=2, unique=True)
     name = models.CharField(max_length=255)
@@ -10,12 +11,14 @@ class Nationality(models.Model):
     class Meta:
         verbose_name_plural = 'Nationalities'
 
+
 class Gender(models.Model):
     code = models.CharField(max_length=2, unique=True)
     name = models.CharField(max_length=255)
 
     def __str__(self):
         return f'{self.name} ({self.code})'
+
 
 class Candidate(models.Model):
     name = models.CharField(max_length=255)
@@ -44,7 +47,7 @@ class Candidate(models.Model):
 
     def __str__(self):
         return f'{self.name} {self.surname}, {self.age}'
-    
+
 
 class CandidateImage(models.Model):
     candidate = models.ForeignKey(Candidate, on_delete=models.CASCADE, related_name='images')
@@ -82,7 +85,6 @@ class CandidateImage(models.Model):
             return
         
         super(CandidateImage, self).save(*args, **kwargs)
-
 
     def __str__(self):
         return f"Image for {self.candidate.name} {self.candidate.surname}"
