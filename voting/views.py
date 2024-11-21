@@ -46,8 +46,13 @@ class VotingView(LoginRequiredMixin, View):
         }
         return render(request, 'voting/voting.html', context)
     
-    # def post(self, request,):
-    #     return
+    def post(self, request):
+        
+        voting_choice_1_points = request.POST.get('voting_choice_1_points', None)
+        voting_choice_2_points = request.POST.get('voting_choice_2_points', None)
+        voting_choice_4_points = request.POST.get('voting_choice_4_points', None)
+        
+        return
 
 
 class VotingCompletionView(LoginRequiredMixin, TemplateView):
