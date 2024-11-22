@@ -73,27 +73,28 @@
 
         function toggleButtonsByCandidate(candidateId) {
             const candidateButtonsContainer = document.getElementById(`candidate-${candidateId}-voting-buttons-container`);
-            toggleSelectedButtons(Array.from(candidateButtonsContainer.children));
+            const buttonsList = Array.from(candidateButtonsContainer.children).filter(getButtonSelected);
+            toggleButtons(buttonsList);
+            cleanInputForButtons(buttonsList);
         }
 
         function toggleButtonsByPoints(points) {
             const pointsButtons = document.querySelectorAll(`button[data-vote-value="${points}"]`);
-            toggleSelectedButtons(pointsButtons);
+            const buttonsList = Array.from(pointsButtons).filter(getButtonSelected);
+            toggleButtons(buttonsList);
+            cleanInputForButtons(buttonsList);
         }
 
-        function toggleSelectedButtons(buttonList) {
+        function toggleButtons(buttonList) {
+            buttonList.forEach(toggleButtonSelectedClasses);
+        }
+
+        function cleanInputForButtons(buttonList) {
             buttonList.forEach(button => {
-                if (getButtonSelected(button)) {
-                    toggleButtonSelectedClasses(button);
-                    cleanInputForButton(button);
-                }
+                const points = button.dataset.voteValue;
+                const input = document.querySelector(`input[name="voting_choice_${points}_points"]`);
+                input.value = '';
             })
-        }
-
-        function cleanInputForButton(button) {
-            const points = button.dataset.voteValue;
-            const input = document.querySelector(`input[name="voting_choice_${points}_points"]`);
-            input.value = '';
         }
 
         function resetInputValues() {
