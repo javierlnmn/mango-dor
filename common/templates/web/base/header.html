@@ -11,8 +11,15 @@
         <nav class="flex justify-center items-center gap-6 max-md:hidden">
             <a class="transition-colors hover:text-amber-400" href="">Categorías</a>
             <a class="transition-colors hover:text-amber-400" href="{% url 'candidates:candidates-list' %}">Candidatos</a>
+            {% if not settings.is_winners_reveal_date_passed %}
+                {% if user.is_authenticated %}
+                    <a class="transition-colors hover:text-amber-400" href="{% url 'voting:voting' %}">Votación</a>
+                {% endif %}
+            {% else %}
+                <a class="transition-colors hover:text-amber-400" href="{% url 'voting:voting-results' %}">Ver resultados</a>
+            {% endif %}
+
             {% if user.is_authenticated %}
-                <a class="transition-colors hover:text-amber-400" href="{% url 'voting:voting' %}">Votación</a>
                 <form method="post" action="{% url 'users:logout' %}">
                     {% csrf_token %}
                     <button class="transition-colors hover:text-red-400" type="submit">Cerrar Sesión</button>

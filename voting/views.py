@@ -2,6 +2,9 @@ from django.core.cache import cache
 from django.shortcuts import render, redirect
 from django.views.generic import View, ListView, DetailView, TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.utils import timezone
+
+from common.models import SiteParameters
 
 from .models import Category, Vote
 from .utils import get_current_category_for_user
@@ -18,6 +21,15 @@ class CategoryDetailView(DetailView):
 
 
 class VotingView(LoginRequiredMixin, View):
+    
+    def dispatch(self, *args, **kwargs):
+        
+        is_winners_reveal_date_passed = SiteParameters.objects.get(id=1).is_winners_reveal_date_passed
+            
+        if is_winners_reveal_date_passed:
+            return redirect('voting:voting-results')
+        
+        return super(VotingView, self).dispatch(*args, **kwargs)
     
     def get_categories(self):
         cached_categories = cache.get('categories_cache')
@@ -73,8 +85,30 @@ class VotingView(LoginRequiredMixin, View):
 
 class VotingCompletionView(LoginRequiredMixin, TemplateView):
     template_name = 'voting/voting_completion.html'
+
+    def dispatch(self, *args, **kwargs):
+        
+        is_winners_reveal_date_passed = SiteParameters.objects.get(id=1).is_winners_reveal_date_passed
+            
+        if is_winners_reveal_date_passed:
+            return redirect('voting:voting-results')
+        
+        return super(VotingCompletionView, self).dispatch(*args, **kwargs)
     
     def get(self, request):
         current_category, _, _ = get_current_category_for_user(request.user)
         if current_category:
             return redirect('voting:voting')
+
+
+class VotingResultsView(LoginRequiredMixin, TemplateView):
+    template_name = 'voting/voting_results.html'
+    
+    def dispatch(self, *args, **kwargs):
+        
+        is_winners_reveal_date_passed = SiteParameters.objects.get(id=1).is_winners_reveal_date_passed
+            
+        if not is_winners_reveal_date_passed:
+            return redirect('voting:voting')
+        
+        return super(VotingResultsView, self).dispatch(*args, **kwargs)

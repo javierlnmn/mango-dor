@@ -9,8 +9,16 @@
     <div class="w-11/12 bg-gray-700/20 shadow-lg py-28 p-12 flex flex-col gap-28 justify-center items-center">
         <a class="text-4xl uppercase font-thin transition-colors hover:text-amber-400" href="">Categorías</a>
         <a class="text-4xl uppercase font-thin transition-colors hover:text-amber-400" href="{% url 'candidates:candidates-list' %}">Candidatos</a>
+        
+        {% if not settings.is_winners_reveal_date_passed %}
+            {% if user.is_authenticated %}
+                <a class="text-4xl uppercase font-thin transition-colors hover:text-amber-400" href="{% url 'voting:voting' %}">Votación</a>
+            {% endif %}
+        {% else %}
+            <a class="text-4xl uppercase font-thin transition-colors hover:text-amber-400" href="{% url 'voting:voting-results' %}">Ver resultados</a>
+        {% endif %}
+        
         {% if user.is_authenticated %}
-            <a class="text-4xl uppercase font-thin transition-colors hover:text-amber-400" href="{% url 'voting:voting' %}">Votación</a>
             <form method="post" action="{% url 'users:logout' %}">
                 {% csrf_token %}
                 <button class="text-4xl uppercase font-thin transition-colors hover:text-red-400" type="submit">Cerrar Sesión</button>

@@ -55,22 +55,34 @@
                     <path d="M22 7.535v9.465a3 3 0 0 1 -2.824 2.995l-.176 .005h-14a3 3 0 0 1 -2.995 -2.824l-.005 -.176v-9.465l9.445 6.297l.116 .066a1 1 0 0 0 .878 0l.116 -.066l9.445 -6.297z" stroke-width="0" fill="currentColor" />
                     <path d="M19 4c1.08 0 2.027 .57 2.555 1.427l-9.555 6.37l-9.555 -6.37a2.999 2.999 0 0 1 2.354 -1.42l.201 -.007h14z" stroke-width="0" fill="currentColor" />
                 </svg>
-                <p class="text-center">La <a class="transition-colors !text-amber-300 hover:!text-amber-500" href="{% url 'candidates:candidates-list' %}">votación</a> la realizan los usuarios. Cada usuario dispone de 3 votos por categoría, cada uno con una valoración distinta (4, 2 o 1 punto.). Puedes repartir estas votaciones entre los candidatos como desees, pero no puedes votar al mismo candidato 2 veces.</p>
+                <p class="text-center">La <a class="transition-colors !text-amber-300 hover:!text-amber-500" href="{% url 'voting:voting' %}">votación</a> la realizan los usuarios. Cada usuario dispone de 3 votos por categoría, cada uno con una valoración distinta (4, 2 o 1 punto.). Puedes repartir estas votaciones entre los candidatos como desees, pero no puedes votar al mismo candidato 2 veces.</p>
             </div>
         </div>
     </section>
     
     <section class="w-11/12 max-w-[1200px] mx-auto py-10 text-gray-100 text-right">
-        <h4 class="text-3xl max-md:text-center font-black uppercase">¿Cómo puedo <span class="bg-gradient-to-r from-yellow-400 via-amber-400 to-orange-400 inline-block text-transparent bg-clip-text italic">votar</span>?</h4>
-        <p class="mt-4 max-md:text-center">
-            Para votar necesitarás una <a class="transition-colors !text-amber-300 hover:!text-amber-500" href="{% url 'users:login' %}">cuenta</a>, la cual te la suminstrará alguno de nuestros administradores. Si no dispones de una cuenta no puedes votar, eres un/a <i>beta</i>. Aquí no se admiten <i>betas</i>.
-        </p>
-        {% if user.is_authenticated %}
-        <div class="max-sm:grid max-sm:place-items-center">
-            <div class="mt-5 w-56 max-sm:w-11/12 cursor-pointer inline-block px-12 py-6 text-center bg-amber-500 -skew-x-[20deg] hover:bg-gray-900 text-gray-900 hover:text-gray-100 transition-colors">
-                <span class="inline-block skew-x-[20deg] font-black uppercase">Vota</span>
+        {% if not settings.is_winners_reveal_date_passed %}
+            <h4 class="text-3xl max-md:text-center font-black uppercase">¿Cómo puedo <span class="bg-gradient-to-r from-yellow-400 via-amber-400 to-orange-400 inline-block text-transparent bg-clip-text italic">votar</span>?</h4>
+            <p class="mt-4 max-md:text-center">
+                Para votar necesitarás una <a class="transition-colors !text-amber-300 hover:!text-amber-500" href="{% url 'users:login' %}">cuenta</a>, la cual te la suminstrará alguno de nuestros administradores. Si no dispones de una cuenta no puedes votar, eres un/a <i>beta</i>. Aquí no se admiten <i>betas</i>.
+            </p>
+            {% if user.is_authenticated %}
+            <div class="max-sm:grid max-sm:place-items-center">
+                <a href="{% url 'voting:voting' %}" class="mt-5 w-56 max-sm:w-11/12 cursor-pointer inline-block px-12 py-6 text-center bg-amber-500 -skew-x-[20deg] hover:bg-gray-900 text-gray-900 hover:text-gray-100 transition-colors">
+                    <span class="inline-block skew-x-[20deg] font-black uppercase">Vota</span>
+                </a>
             </div>
-        </div>
+            {% endif %}
+        {% else %}
+            <h4 class="text-3xl max-md:text-center font-black uppercase">¡Ya puedes ver <span class="bg-gradient-to-r from-yellow-400 via-amber-400 to-orange-400 inline-block text-transparent bg-clip-text italic">los resultados</span>!</h4>
+            <p class="mt-4 max-md:text-center">
+                Comprueba los resultados de tus candidatos favoritos por categorías. No se valen <i>lloros</i>.
+            </p>
+            <div class="max-sm:grid max-sm:place-items-center">
+                <a href="{% url 'voting:voting-results' %}" class="mt-5 w-56 max-sm:w-11/12 cursor-pointer inline-block px-12 py-6 text-center bg-amber-500 -skew-x-[20deg] hover:bg-gray-900 text-gray-900 hover:text-gray-100 transition-colors">
+                    <span class="inline-block skew-x-[20deg] font-black uppercase">Ver resultados</span>
+                </a>
+            </div>
         {% endif %}
     </section>
 

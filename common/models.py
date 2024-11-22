@@ -1,3 +1,4 @@
+from django.utils import timezone
 from django.db import models
 from django.core.cache import cache
 
@@ -27,3 +28,8 @@ class AbstractSingleton(models.Model):
     
 class SiteParameters(AbstractSingleton):
     winners_reveal_date = models.DateField(null=True, blank=True)
+    
+    @property
+    def is_winners_reveal_date_passed(self):
+        today = timezone.now().date()
+        return today >= self.winners_reveal_date

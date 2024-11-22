@@ -5,32 +5,36 @@
 
 <main class="my-6">
 
-    <form action="" method="POST">
-        {% csrf_token %}
+    <div class="w-11/12 max-w-[1200px] mx-auto">
 
-        {{ current_category.name }}
-        <div id="voting-form-container" class="grid grid-cols-3">
-            {% for candidate in candidates %}
-            
-            <div class="border-red-600 border-2">
-                <p>{{ candidate.name }} {{ candidate.surname }}</p>
-                <div id="candidate-{{candidate.id}}-voting-buttons-container" class="grid grid-cols-3" data-candidate-id="{{ candidate.id }}">
-                    {% for voting_point in voting_points%}
-                        <button type="button" data-vote-value="{{voting_point}}" class="border-blue-600 border-2 disabled:opacity-60">Vote {{voting_point}} point{{voting_point|pluralize}}</button>
-                    {% endfor %}
+        <form action="" method="POST">
+            {% csrf_token %}
+
+            {{ current_category.name }}
+            <div id="voting-form-container" class="grid grid-cols-3">
+                {% for candidate in candidates %}
+                
+                <div class="border-red-600 border-2">
+                    <p>{{ candidate.name }} {{ candidate.surname }}</p>
+                    <div id="candidate-{{candidate.id}}-voting-buttons-container" class="grid grid-cols-3" data-candidate-id="{{ candidate.id }}">
+                        {% for voting_point in voting_points%}
+                            <button type="button" data-vote-value="{{voting_point}}" class="border-blue-600 border-2 disabled:opacity-60">Vote {{voting_point}} point{{voting_point|pluralize}}</button>
+                        {% endfor %}
+                    </div>
                 </div>
+                
+                {% endfor %}
             </div>
             
+            {% for voting_point in voting_points%}
+                <input type="hidden" name="voting_choice_{{voting_point}}_points">
             {% endfor %}
-        </div>
-        
-        {% for voting_point in voting_points%}
-            <input type="hidden" name="voting_choice_{{voting_point}}_points">
-        {% endfor %}
 
-        <button type="submit">Submit</button>
-        
-    </form>
+            <button type="submit">Submit</button>
+            
+        </form>
+
+    </div>
     
     <script>
         const pointList = [{% for voting_point in voting_points %} {{voting_point}}, {% endfor %}];
