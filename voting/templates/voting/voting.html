@@ -34,82 +34,76 @@
     
     <script>
         const pointList = [{% for voting_point in voting_points %} {{voting_point}}, {% endfor %}];
-        const candidatesButtons = {};
+        const votingFormContainer = document.getElementById("voting-form-container");
 
-        document.querySelectorAll("[data-candidate-id]").forEach(container => {
-            const candidateId = container.getAttribute("data-candidate-id");
-            const buttons = Array.from(container.querySelectorAll("button[data-vote-value]"));
+        votingFormContainer.addEventListener("click", function(event) {
+            if (event.target.tagName === "BUTTON") {
+                const button = event.target;
+                const points = button.dataset.voteValue;
+                const candidateId = button.closest("[data-candidate-id]").getAttribute("data-candidate-id");
+                
+                handleVotingButtonClick(button, candidateId, points);
+            }
+        });
+
+        function handleVotingButtonClick(button, candidateId, points) {
+            const isButtonSelected = getButtonSelected(button);
+            const pointsInput = document.querySelector(`input[name="voting_choice_${points}_points"]`);
+
             
-            candidatesButtons[candidateId] = {};
+            if (!isButtonSelected) {
+                toggleButtonsByCandidate(candidateId);
+                toggleButtonsByPoints(points);
+                pointsInput.value = candidateId;
+            } else {
+                pointsInput.value = '';
+            }
 
-            pointList.forEach(point => {
-                const button = buttons.filter(button => button.getAttribute("data-vote-value") === String(point))[0];
-                if (button) {
-                    candidatesButtons[candidateId][point] = button;
+            toggleButtonSelectedClasses(button);
+        }
+
+        function getButtonSelected(button) {
+            return button.classList.contains("border-dashed") && button.classList.contains("border-pink-600");
+        }
+
+        function toggleButtonSelectedClasses(button) {
+            button.classList.toggle("border-dashed");
+            button.classList.toggle("border-pink-600");
+        }
+
+        function toggleButtonsByCandidate(candidateId) {
+            const candidateButtonsContainer = document.getElementById(`candidate-${candidateId}-voting-buttons-container`);
+            toggleSelectedButtons(Array.from(candidateButtonsContainer.children));
+        }
+
+        function toggleButtonsByPoints(points) {
+            const pointsButtons = document.querySelectorAll(`button[data-vote-value="${points}"]`);
+            toggleSelectedButtons(pointsButtons);
+        }
+
+        function toggleSelectedButtons(buttonList) {
+            buttonList.forEach(button => {
+                if (getButtonSelected(button)) {
+                    toggleButtonSelectedClasses(button);
+                    cleanInputForButton(button);
                 }
-            });
-        });
+            })
+        }
 
-        document.querySelectorAll("button[data-vote-value]").forEach(button => {
+        function cleanInputForButton(button) {
+            const points = button.dataset.voteValue;
+            const input = document.querySelector(`input[name="voting_choice_${points}_points"]`);
+            input.value = '';
+        }
 
-            button.addEventListener("click", function(event) {
-
-                const points = event.target.getAttribute("data-vote-value");
-                const candidateId = event.target.closest("[data-candidate-id]").getAttribute("data-candidate-id");
-                
-                const hiddenInput = document.querySelector(`input[name="voting_choice_${points}_points"]`);
-                
-                if (event.target.style.border === "2px dashed pink") {
-                    event.target.style.border = "";
-
-                    if (hiddenInput) {
-                        hiddenInput.value = "";
-                    }
-
-                    const candidateButtons = candidatesButtons[candidateId];
-                    for (let point of pointList) {
-                        if (point === Number(event.target.dataset.voteValue)) continue;
-                        const candidateButton = candidateButtons[point];
-                        candidateButton.disabled = false;
-                    }
-
-                    document.querySelectorAll(`button[data-vote-value="${points}"]`).forEach(button => {
-                        button.disabled = false;
-                    });
-
-                } else {
-
-                    event.target.style.border = "2px dashed pink";
-
-                    if (hiddenInput) {
-                        hiddenInput.value = candidateId;
-                    }
-
-                    const candidateButtons = candidatesButtons[candidateId];
-                    for (let point of pointList) {
-                        if (point === Number(event.target.dataset.voteValue)) continue;
-                        const candidateButton = candidateButtons[point];
-                        candidateButton.disabled = true;
-                    }
-
-                    document.querySelectorAll(`button[data-vote-value="${points}"]`).forEach(button => {
-                        if (!button.disabled && button !== event.target) {
-                            button.disabled = true;
-                        }
-                    });
-
-                }
-            });
-        });
-
-        function resetInputsValue() {
-            const inputs = pointList.map((points) => document.querySelector(`input[name="voting_choice_${points}_points"]`))
-            for (let input of inputs)  {
-                input.value = '';
+        function resetInputValues() {
+            for (let points of pointList) {
+                let pointsInput = document.querySelector(`input[name="voting_choice_${points}_points"]`);
+                pointsInput.value = '';
             }
         }
 
-        resetInputsValue();
+        resetInputValues();
     </script>
 </main>
     
