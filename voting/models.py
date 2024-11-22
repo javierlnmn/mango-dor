@@ -7,7 +7,7 @@ from candidates.models import Candidate
 class Category(models.Model):
     code = models.CharField(max_length=2, unique=True)
     name = models.CharField(max_length=255)
-    image = models.ImageField(upload_to='category_images/')
+    image = models.ImageField(upload_to='category_images/', null=True, blank=True)
     description = models.TextField(null=True, blank=True)
     winner = models.ForeignKey(Candidate, on_delete=models.PROTECT, related_name="won_categories", blank=True, null=True)
     slug = models.SlugField(null=False, unique=True)
