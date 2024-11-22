@@ -1,0 +1,116 @@
+{% extends 'web/_main.html' %}
+{% load static %}
+
+{% block contenido %}
+
+<main class="my-6">
+
+    <form action="" method="POST">
+        {% csrf_token %}
+
+        {{ current_category.name }}
+        <div id="voting-form-container" class="grid grid-cols-3">
+            {% for candidate in candidates %}
+            
+            <div class="border-red-600 border-2">
+                <p>{{ candidate.name }} {{ candidate.surname }}</p>
+                <div id="candidate-{{candidate.id}}-voting-buttons-container" class="grid grid-cols-3" data-candidate-id="{{ candidate.id }}">
+                    <button type="button" data-vote-value="1" class="border-blue-600 border-2 disabled:opacity-60">Vote 1 point</button>
+                    <button type="button" data-vote-value="2" class="border-blue-600 border-2 disabled:opacity-60">Vote 2 points</button>
+                    <button type="button" data-vote-value="4" class="border-blue-600 border-2 disabled:opacity-60">Vote 4 points</button>
+                </div>
+            </div>
+            
+            {% endfor %}
+        </div>
+        
+        <input type="hidden" name="voting_choice_1_points">
+        <input type="hidden" name="voting_choice_2_points">
+        <input type="hidden" name="voting_choice_4_points">
+
+        <button type="submit">Submit</button>
+        
+    </form>
+    
+    <script>
+        const pointList = [1, 2, 4]
+        const candidatesButtons = {};
+
+        document.querySelectorAll("[data-candidate-id]").forEach(container => {
+            const candidateId = container.getAttribute("data-candidate-id");
+            const buttons = Array.from(container.querySelectorAll("button[data-vote-value]"));
+            
+            candidatesButtons[candidateId] = {};
+
+            pointList.forEach(point => {
+                const button = buttons.filter(button => button.getAttribute("data-vote-value") === String(point))[0];
+                if (button) {
+                    candidatesButtons[candidateId][point] = button;
+                }
+            });
+        });
+
+        document.querySelectorAll("button[data-vote-value]").forEach(button => {
+
+            button.addEventListener("click", function(event) {
+
+                const points = event.target.getAttribute("data-vote-value");
+                const candidateId = event.target.closest("[data-candidate-id]").getAttribute("data-candidate-id");
+                
+                const hiddenInput = document.querySelector(`input[name="voting_choice_${points}_points"]`);
+                
+                if (event.target.style.border === "2px dashed pink") {
+                    event.target.style.border = "";
+
+                    if (hiddenInput) {
+                        hiddenInput.value = "";
+                    }
+
+                    const candidateButtons = candidatesButtons[candidateId];
+                    for (let point of pointList) {
+                        if (point === Number(event.target.dataset.voteValue)) continue;
+                        const candidateButton = candidateButtons[point];
+                        candidateButton.disabled = false;
+                    }
+
+                    document.querySelectorAll(`button[data-vote-value="${points}"]`).forEach(button => {
+                        button.disabled = false;
+                    });
+
+                } else {
+
+                    event.target.style.border = "2px dashed pink";
+
+                    if (hiddenInput) {
+                        hiddenInput.value = candidateId;
+                    }
+
+                    const candidateButtons = candidatesButtons[candidateId];
+                    for (let point of pointList) {
+                        if (point === Number(event.target.dataset.voteValue)) continue;
+                        const candidateButton = candidateButtons[point];
+                        candidateButton.disabled = true;
+                    }
+
+                    document.querySelectorAll(`button[data-vote-value="${points}"]`).forEach(button => {
+                        if (!button.disabled && button !== event.target) {
+                            button.disabled = true;
+                        }
+                    });
+
+                }
+            });
+        });
+
+        function resetInputsValue() {
+            const inputs = pointList.map((points) => document.querySelector(`input[name="voting_choice_${points}_points"]`))
+            for (let input of inputs)  {
+                input.value = '';
+            }
+        }
+
+        resetInputsValue();
+    </script>
+</main>
+    
+{% endblock %}
