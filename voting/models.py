@@ -26,9 +26,9 @@ class Category(models.Model):
 class Vote(models.Model):
 
     VOTING_POINTS_CHOICES = [
-        (1, '1'),
-        (2, '2'),
-        (4, '4'),
+        (1, '1 Points'),
+        (2, '2 Points'),
+        (4, '4 Points'),
     ]
     
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='votes')

@@ -15,25 +15,25 @@
             <div class="border-red-600 border-2">
                 <p>{{ candidate.name }} {{ candidate.surname }}</p>
                 <div id="candidate-{{candidate.id}}-voting-buttons-container" class="grid grid-cols-3" data-candidate-id="{{ candidate.id }}">
-                    <button type="button" data-vote-value="1" class="border-blue-600 border-2 disabled:opacity-60">Vote 1 point</button>
-                    <button type="button" data-vote-value="2" class="border-blue-600 border-2 disabled:opacity-60">Vote 2 points</button>
-                    <button type="button" data-vote-value="4" class="border-blue-600 border-2 disabled:opacity-60">Vote 4 points</button>
+                    {% for voting_point in voting_points%}
+                        <button type="button" data-vote-value="{{voting_point}}" class="border-blue-600 border-2 disabled:opacity-60">Vote {{voting_point}} point{{voting_point|pluralize}}</button>
+                    {% endfor %}
                 </div>
             </div>
             
             {% endfor %}
         </div>
         
-        <input type="hidden" name="voting_choice_1_points">
-        <input type="hidden" name="voting_choice_2_points">
-        <input type="hidden" name="voting_choice_4_points">
+        {% for voting_point in voting_points%}
+            <input type="hidden" name="voting_choice_{{voting_point}}_points">
+        {% endfor %}
 
         <button type="submit">Submit</button>
         
     </form>
     
     <script>
-        const pointList = [1, 2, 4]
+        const pointList = [{% for voting_point in voting_points %} {{voting_point}}, {% endfor %}];
         const candidatesButtons = {};
 
         document.querySelectorAll("[data-candidate-id]").forEach(container => {

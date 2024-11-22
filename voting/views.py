@@ -4,8 +4,8 @@ from django.views.generic import View, ListView, DetailView, TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import Category, Vote
+from .utils import get_current_category_for_user
 from candidates.models import Candidate
-
 
 class CategoryListView(ListView):
     model = Category
@@ -28,64 +28,38 @@ class VotingView(LoginRequiredMixin, View):
 
         return cached_categories
     
-    def get_current_category_for_user(self, user):
-        categories = self.get_categories()
-        total_categories_number = categories.count()
-        current_category = None
-        current_category_number = 0
-        
-        for index, category in enumerate(categories):
-            user_votes_completed = category.user_category_voting_complete(user)
-            
-            if not user_votes_completed:
-                current_category = category
-                current_category_number = index + 1
-                break
-        
-        return current_category, current_category_number, total_categories_number
-    
     def get(self, request):
-        current_category, current_category_number, total_categories_number = self.get_current_category_for_user(request.user)
+        current_category, current_category_number, total_categories_number = get_current_category_for_user(request.user)
         
         if not current_category:
             return redirect('voting:voting-completion')
 
         candidates = Candidate.objects.all()
         
+        voting_points = [value for value, _ in Vote.VOTING_POINTS_CHOICES]
+        
         context = {
             'current_category': current_category,
             'current_category_number': current_category_number,
             'total_categories_number': total_categories_number,
             'candidates': candidates,
+            'voting_points': voting_points
         }
         
         return render(request, 'voting/voting.html', context)
     
     def post(self, request):
-        current_category, _, _ = self.get_current_category_for_user(request.user)
-        
+        current_category, _, _ = get_current_category_for_user(request.user)
         if not current_category:
             return redirect('voting:voting-completion')
-        
-        voting_points_list = [1, 2, 4]
+
+        voting_points_list = [value for value, _ in Vote.VOTING_POINTS_CHOICES]
         voting_points_choices = {}
-        
         for points in voting_points_list:
             voting_points_choices[points] = request.POST.get(f'voting_choice_{points}_points', None)
         
-        # In case an input name was modified
-        if len(voting_points_choices) is not len(voting_points_list):
-            return redirect('voting:voting')
+        # Check if its a valid vote
         
-        # In case a vote value was None
-        for voting_value in voting_points_choices.values():
-            if not voting_value:
-                return redirect('voting:voting')
-        
-        # In case they repeated candidate
-        if len(set(voting_points_choices.values())) != len(voting_points_list):
-            return redirect('voting:voting')
-            
         for vote_points, vote_candidate in voting_points_choices.items():
             Vote.objects.create(
                 user=request.user,
@@ -99,3 +73,8 @@ class VotingView(LoginRequiredMixin, View):
 
 class VotingCompletionView(LoginRequiredMixin, TemplateView):
     template_name = 'voting/voting_completion.html'
+    
+    def get(self, request):
+        current_category, _, _ = get_current_category_for_user(request.user)
+        if current_category:
+            return redirect('voting:voting')
