@@ -1,0 +1,73 @@
+<section class="w-11/12 max-w-[500px] mx-auto py-10 text-gray-100">
+    
+    <div class="flex gap-3 justify-center items-center">
+
+        <div class="flex-1 flex flex-col items-center">
+            <div id="days" class="w-full bg-gray-900/20 rounded-md p-4 aspect-1 grid place-items-center font-black text-4xl">
+                <p class="animation-glow">00</p>
+            </div>
+            <p>días</p>
+        </div>
+
+        <span class="text-2xl font-black">:</span>
+
+        <div class="flex-1 flex flex-col items-center">
+            <div id="hours" class="w-full bg-gray-900/20 rounded-md p-4 aspect-1 grid place-items-center font-black text-4xl">
+                <p class="animation-glow">00</p>
+            </div>
+            <p>horas</p>
+        </div>
+
+        <span class="text-2xl font-black">:</span>
+
+        <div class="flex-1 flex flex-col items-center">
+            <div id="minutes" class="w-full bg-gray-900/20 rounded-md p-4 aspect-1 grid place-items-center font-black text-4xl">
+                <p class="animation-glow">00</p>
+            </div>
+            <p>minutos</p>
+        </div>
+
+        <span class="text-2xl font-black">:</span>
+
+        <div class="flex-1 flex flex-col items-center">
+            <div id="seconds" class="w-full bg-gray-900/20 rounded-md p-4 aspect-1 grid place-items-center font-black text-4xl">
+                <p class="animation-glow">00</p>
+            </div>
+            <p>segundos</p>
+        </div>
+    </div>
+
+    <script>
+        function startCountdown(targetDate) {
+            const updateTimer = () => {
+                const now = new Date();
+                const remainingTime = targetDate - now;
+        
+                if (remainingTime <= 0) {
+                    clearInterval(timerInterval);
+                    document.getElementById("days").querySelector("p").textContent = "0";
+                    document.getElementById("hours").querySelector("p").textContent = "00";
+                    document.getElementById("minutes").querySelector("p").textContent = "00";
+                    document.getElementById("seconds").querySelector("p").textContent = "00";
+                    return;
+                }
+        
+                const days = Math.floor(remainingTime / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((remainingTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
+        
+                document.getElementById("days").querySelector("p").textContent = days;
+                document.getElementById("hours").querySelector("p").textContent = hours < 10 ? `0${hours}` : hours;
+                document.getElementById("minutes").querySelector("p").textContent = minutes < 10 ? `0${minutes}` : minutes;
+                document.getElementById("seconds").querySelector("p").textContent = seconds < 10 ? `0${seconds}` : seconds;
+            };
+        
+            updateTimer();
+            const timerInterval = setInterval(updateTimer, 1000);
+        }
+        
+        const targetDate = new Date("{{settings.winners_reveal_date }}".replace('.', '')); // Set your target date and time here
+        startCountdown(targetDate)
+    </script>
+</section>
