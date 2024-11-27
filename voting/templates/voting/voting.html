@@ -1,24 +1,37 @@
-{% extends 'web/_main.html' %}
+{% extends 'web/_empty.html' %}
 {% load static %}
 
 {% block content %}
 
-<main class="my-6">
+<main class="my-6 flex flex-col gap-6">
 
-    <div class="w-11/12 max-w-[1200px] mx-auto">
+    <div class="grid place-items-center mt-6">
+        <h1 class="uppercase text-center text-7xl max-md:text-4xl font-black"><span class="bg-gradient-to-r from-yellow-400 via-amber-400 to-orange-400 inline-block text-transparent bg-clip-text italic">{{current_category.name}}</span></h1>
+        <p class="text-center text-lg italic text-gray-400">{{current_category_number}} de {{total_categories_number}}</p>
+    </div>
+    
+    <section class="w-11/12 max-w-[1200px] mx-auto">
+
+        {% comment %} WE ASSUME THE VOTING POINTS WILL BE 1, 2 AND 4 {% endcomment %}
 
         <form action="" method="POST">
             {% csrf_token %}
 
-            {{ current_category.name }}
-            <div id="voting-form-container" class="grid grid-cols-3">
+            <div id="voting-form-container" class="grid grid-cols-3 gap-7 max-lg:grid-cols-2 max-md:grid-cols-1">
                 {% for candidate in candidates %}
                 
-                <div class="border-red-600 border-2">
-                    <p>{{ candidate.name }} {{ candidate.surname }}</p>
-                    <div id="candidate-{{candidate.id}}-voting-buttons-container" class="grid grid-cols-3" data-candidate-id="{{ candidate.id }}">
+                <div class="bg-gray-900/20 rounded-md p-6 flex flex-col items-center">
+                    <img class="aspect-1 object-contain object-bottom h-[300px] -mb-14" src="{{ candidate.main_image.image.url }}" alt="candidate image">
+                    <h4 class="animation-glow w-[120%] text-center text-7xl max-md:text-5xl font-black italic uppercase text-white tracking-[-0.1em]">{{ candidate.name }} {{ candidate.surname }}</h4>
+                    <div id="candidate-{{candidate.id}}-voting-buttons-container" class="w-full mt-auto pt-3 flex flex-wrap gap-3" data-candidate-id="{{ candidate.id }}">
                         {% for voting_point in voting_points%}
-                            <button type="button" data-vote-value="{{voting_point}}" class="border-blue-600 border-2 disabled:opacity-60">Vote {{voting_point}} point{{voting_point|pluralize}}</button>
+                            <button
+                                type="button"
+                                data-vote-value="{{voting_point}}"
+                                class="py-2 px-1 flex-1 min-w-[100px] uppercase font-black text-xl rounded-md text-gray-200 bg-gray-900/30"
+                            >
+                                {{voting_point}} point{{voting_point|pluralize}}
+                            </button>
                         {% endfor %}
                     </div>
                 </div>
@@ -29,87 +42,146 @@
             {% for voting_point in voting_points%}
                 <input type="hidden" name="voting_choice_{{voting_point}}_points">
             {% endfor %}
+            
 
-            <button type="submit">Submit</button>
+            <div class="w-full">
+                <button disabled type="submit" class="disabled:opacity-50 disabled:bg-gray-900 disabled:text-gray-100 disabled:cursor-not-allowed mt-5 w-full cursor-pointer inline-block px-12 py-6 my-6 text-center bg-amber-500 -skew-x-[20deg] hover:bg-gray-900 text-gray-900 hover:text-gray-100 transition-colors">
+                    <span class="inline-block skew-x-[20deg] font-black uppercase text-3xl">
+                        {% if current_category_number < total_categories_number%}
+                            Siguiente categoría
+                        {% else %}
+                            Terminar votación
+                        {% endif %}
+                    </span>
+                </button>
+            </div>
             
         </form>
 
-    </div>
-    
-    <script>
-        const pointList = [{% for voting_point in voting_points %} {{voting_point}}, {% endfor %}];
-        const votingFormContainer = document.getElementById("voting-form-container");
+        <script>
+            const pointList = {
+                {% for voting_point in voting_points %}
+                    {{voting_point}}: {
+                        'toggled-styles': 
+                            {% if voting_point <= 1 %}
+                                'text-red-400 bg-red-500/40 border-glow-red-600/60',
+                            {% elif voting_point <= 3 %}
+                                'text-amber-400 bg-amber-500/40 border-glow-amber-600/60',
+                            {% elif voting_point <= 5 %}
+                                'text-emerald-400 bg-emerald-500/40 border-glow-emerald-600/60',
+                            {% else %}
+                                'text-sky-400 bg-sky-500/40 border-glow-sky-600/60',
+                            {% endif %}
+                    },
+                {% endfor %}
+            };
+            const votingFormContainer = document.getElementById("voting-form-container");
+            const submitButton = document.querySelector('button[type="submit"]');
 
-        votingFormContainer.addEventListener("click", function(event) {
-            if (event.target.tagName === "BUTTON") {
-                const button = event.target;
-                const points = button.dataset.voteValue;
-                const candidateId = button.closest("[data-candidate-id]").getAttribute("data-candidate-id");
+            votingFormContainer.addEventListener("click", function(event) {
+                if (event.target.tagName === "BUTTON") {
+                    const button = event.target;
+                    const points = button.dataset.voteValue;
+                    const candidateId = button.closest("[data-candidate-id]").getAttribute("data-candidate-id");
+                    
+                    handleVotingButtonClick(button, candidateId, points);
+                }
+            });
+
+            function handleVotingButtonClick(button, candidateId, points) {
+                const isButtonSelected = getButtonSelected(button);
+                const pointsInput = document.querySelector(`input[name="voting_choice_${points}_points"]`);
+
+                if (!isButtonSelected) {
+                    toggleButtonsByCandidate(candidateId);
+                    toggleButtonsByPoints(points);
+                    pointsInput.value = candidateId;
+                } else {
+                    pointsInput.value = '';
+                }
+
+                toggleButtonSelectedClasses(button);
+
+                submitButton.disabled = !isVotingSubmittable();
+            }
+
+            function getButtonSelected(button) {
+                const buttonPoints = button.dataset.voteValue;
+                const classesString = pointList[buttonPoints]['toggled-styles'];
+                const classesList = classesString.split(' ');
+                return button.classList.contains(classesList[0]);
+            }
+
+            function toggleButtonSelectedClasses(button) {
+                const buttonPoints = button.dataset.voteValue;
+                const classesString = pointList[buttonPoints]['toggled-styles'];
+                const defaultClassesList = ['text-gray-200', 'bg-gray-900/30'];
+                const classesList = classesString.split(' ');
+                const allClasses = defaultClassesList.concat(classesList);
+                for (const className of allClasses) {
+                    button.classList.toggle(className);
+                }
+            }
+
+            function toggleButtonsByCandidate(candidateId) {
+                const candidateButtonsContainer = document.getElementById(`candidate-${candidateId}-voting-buttons-container`);
+                const buttonsList = Array.from(candidateButtonsContainer.children).filter(getButtonSelected);
+                toggleButtons(buttonsList);
+                cleanInputForButtons(buttonsList);
+            }
+
+            function toggleButtonsByPoints(points) {
+                const pointsButtons = document.querySelectorAll(`button[data-vote-value="${points}"]`);
+                const buttonsList = Array.from(pointsButtons).filter(getButtonSelected);
+                toggleButtons(buttonsList);
+                cleanInputForButtons(buttonsList);
+            }
+
+            function toggleButtons(buttonList) {
+                buttonList.forEach(toggleButtonSelectedClasses);
+            }
+
+            function cleanInputForButtons(buttonList) {
+                buttonList.forEach(button => {
+                    const points = button.dataset.voteValue;
+                    const input = document.querySelector(`input[name="voting_choice_${points}_points"]`);
+                    input.value = '';
+                });
+            }
+
+            function isVotingSubmittable() {
+                const inputs = [];
+                const inputNumbers = [];
                 
-                handleVotingButtonClick(button, candidateId, points);
+                for (let points of Object.keys(pointList)) {
+                    const input = document.querySelector(`input[name="voting_choice_${points}_points"]`);
+                    const inputNumber = Number(input.value);
+                    inputs.push(input);
+                    if (inputNumber > 0) {
+                        inputNumbers.push(inputNumber);
+                    } 
+                }
+
+                const filledInputsCount = [...new Set(inputNumbers)].length;
+
+                if (filledInputsCount !== inputs.length) {
+                    return false;
+                }
+
+                return true;
             }
-        });
 
-        function handleVotingButtonClick(button, candidateId, points) {
-            const isButtonSelected = getButtonSelected(button);
-            const pointsInput = document.querySelector(`input[name="voting_choice_${points}_points"]`);
-
-            
-            if (!isButtonSelected) {
-                toggleButtonsByCandidate(candidateId);
-                toggleButtonsByPoints(points);
-                pointsInput.value = candidateId;
-            } else {
-                pointsInput.value = '';
+            function resetInputValues() {
+                for (let points of Object.keys(pointList)) {
+                    let pointsInput = document.querySelector(`input[name="voting_choice_${points}_points"]`);
+                    pointsInput.value = '';
+                }
             }
 
-            toggleButtonSelectedClasses(button);
-        }
+            resetInputValues();
+        </script>
 
-        function getButtonSelected(button) {
-            return button.classList.contains("border-dashed") && button.classList.contains("border-pink-600");
-        }
-
-        function toggleButtonSelectedClasses(button) {
-            button.classList.toggle("border-dashed");
-            button.classList.toggle("border-pink-600");
-        }
-
-        function toggleButtonsByCandidate(candidateId) {
-            const candidateButtonsContainer = document.getElementById(`candidate-${candidateId}-voting-buttons-container`);
-            const buttonsList = Array.from(candidateButtonsContainer.children).filter(getButtonSelected);
-            toggleButtons(buttonsList);
-            cleanInputForButtons(buttonsList);
-        }
-
-        function toggleButtonsByPoints(points) {
-            const pointsButtons = document.querySelectorAll(`button[data-vote-value="${points}"]`);
-            const buttonsList = Array.from(pointsButtons).filter(getButtonSelected);
-            toggleButtons(buttonsList);
-            cleanInputForButtons(buttonsList);
-        }
-
-        function toggleButtons(buttonList) {
-            buttonList.forEach(toggleButtonSelectedClasses);
-        }
-
-        function cleanInputForButtons(buttonList) {
-            buttonList.forEach(button => {
-                const points = button.dataset.voteValue;
-                const input = document.querySelector(`input[name="voting_choice_${points}_points"]`);
-                input.value = '';
-            })
-        }
-
-        function resetInputValues() {
-            for (let points of pointList) {
-                let pointsInput = document.querySelector(`input[name="voting_choice_${points}_points"]`);
-                pointsInput.value = '';
-            }
-        }
-
-        resetInputValues();
-    </script>
+    </section>
 </main>
     
 {% endblock %}
