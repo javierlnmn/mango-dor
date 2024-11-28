@@ -27,13 +27,11 @@ DEPLOYING_HOST = 'mango-dor.onrender.com'
 SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = os.getenv('DEBUG') == 'True'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [DEPLOYING_HOST,]
 
 if DEBUG:
     ALLOWED_HOSTS.append('localhost')
     ALLOWED_HOSTS.append('127.0.0.1')
-else:
-    ALLOWED_HOSTS.append(DEPLOYING_HOST)
 
 
 CSRF_TRUSTED_ORIGINS = [
