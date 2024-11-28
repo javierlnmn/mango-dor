@@ -19,15 +19,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Load environment variables from .env
 load_dotenv(os.path.join(BASE_DIR, '.env'))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
-SECRET_KEY = os.getenv('SECRET_KEY')
-print(os.getenv('DEBUG'))
-print(os.getenv('SECRET_KEY'))
-DEBUG = os.getenv('DEBUG') == 'True'
+DEPLOYING_HOST = 'mango-dor.onrender.com'
 
+SECRET_KEY = os.getenv('SECRET_KEY')
+DEBUG = os.getenv('DEBUG') == 'True'
 
 ALLOWED_HOSTS = []
 
@@ -35,11 +33,11 @@ if DEBUG:
     ALLOWED_HOSTS.append('localhost')
     ALLOWED_HOSTS.append('127.0.0.1')
 else:
-    ALLOWED_HOSTS.append('mango-dor.onrender.com')
+    ALLOWED_HOSTS.append(DEPLOYING_HOST)
 
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://your-app-name.onrender.com',  # Replace with your actual Render URL
+    f'https://{DEPLOYING_HOST}',  # Replace with your actual Render URL
 ]
 
 # Application definition
@@ -110,7 +108,6 @@ NPM_BIN_PATH = which("npm")
 INTERNAL_IPS = [
     '127.0.0.1',
 ]
-
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
