@@ -24,10 +24,23 @@ load_dotenv(os.path.join(BASE_DIR, '.env'))
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 SECRET_KEY = os.getenv('SECRET_KEY')
-
+print(os.getenv('DEBUG'))
+print(os.getenv('SECRET_KEY'))
 DEBUG = os.getenv('DEBUG') == 'True'
 
-ALLOWED_HOSTS = ['mango-dor.onrender.com']
+
+ALLOWED_HOSTS = []
+
+if DEBUG:
+    ALLOWED_HOSTS.append('localhost')
+    ALLOWED_HOSTS.append('127.0.0.1')
+else:
+    ALLOWED_HOSTS.append('mango-dor.onrender.com')
+
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://your-app-name.onrender.com',  # Replace with your actual Render URL
+]
 
 # Application definition
 
@@ -109,8 +122,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
-    # Auto browser reload
-    "django_browser_reload.middleware.BrowserReloadMiddleware",
+    # Whitenoise for static serving
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'mangodor.urls'
@@ -196,15 +209,21 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
+# Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'
-
+# Add this if you have a local "static" directory where static assets are stored
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
 
+# This is where collectstatic will gather all static files
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+# WhiteNoise for serving static files in production
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# Media folders
+MEDIA_ROOT = '/media/mangodor/'
 MEDIA_URL = "/media/"
 
 # Default primary key field type
