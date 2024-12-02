@@ -5,7 +5,7 @@
     <div class="w-11/12 max-w-[1200px] mx-auto grid grid-cols-4 max-md:flex max-md:flex-col max-md:items-center text-gray-100">
 
         <div class="text-sm flex flex-col justify-between gap-6 max-md:gap-8 max-md:self-start">
-            <a class="transition-colors hover:text-amber-400" href="">Categorías</a>
+            <a class="transition-colors hover:text-amber-400" href="{% url 'voting:categories-list' %}">Categorías</a>
             <a class="transition-colors hover:text-amber-400" href="{% url 'candidates:candidates-list' %}">Candidatos</a>
             {% if not settings.is_winners_reveal_date_passed %}
                 {% if user.is_authenticated %}

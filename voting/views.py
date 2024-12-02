@@ -120,19 +120,18 @@ class VotingView(LoginRequiredMixin, View):
 class VotingCompletionView(LoginRequiredMixin, TemplateView):
     template_name = 'voting/voting_completion.html'
 
-    def dispatch(self, *args, **kwargs):
+    def dispatch(self, request, *args, **kwargs):
         
         is_winners_reveal_date_passed = SiteParameters.objects.get(id=1).is_winners_reveal_date_passed
             
         if is_winners_reveal_date_passed:
             return redirect('voting:voting-results')
         
-        return super(VotingCompletionView, self).dispatch(*args, **kwargs)
-    
-    def get(self, request):
         current_category, _, _ = get_current_category_for_user(request.user)
         if current_category:
             return redirect('voting:voting')
+        
+        return super(VotingCompletionView, self).dispatch(request, *args, **kwargs)
 
 
 class VotingResultsView(LoginRequiredMixin, TemplateView):

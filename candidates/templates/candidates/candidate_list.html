@@ -61,8 +61,10 @@
                             {% endif %}
                         </div>
                     </div>
-                    <a href="{% url 'candidates:candidate-detail' candidate.slug %}" class="w-11/12 mx-auto mt-auto cursor-pointer inline-block px-12 py-6 text-center bg-amber-500 -skew-x-[20deg] hover:bg-gray-900 text-gray-900 hover:text-gray-100 transition-colors">
-                        <span class="inline-block skew-x-[20deg] font-black uppercase text-2xl">Ver Candidato</span>
+                    <a href="{% url 'candidates:candidate-detail' candidate.slug %}" class="w-11/12 mx-auto disabled:opacity-50 disabled:bg-gray-900 disabled:text-gray-100 disabled:cursor-not-allowed cursor-pointer inline-block px-8 py-5 text-center bg-gradient-to-r from-yellow-400 hover:from-gray-900 via-amber-400 hover:via-gray-800 to-orange-400 hover:to-gray-900 -skew-x-[20deg] text-gray-900 hover:text-gray-100">
+                        <span class="inline-block skew-x-[20deg] font-black uppercase text-2xl">
+                            Ver Candidato
+                        </span>
                     </a>
                 </div>
             {% empty %}

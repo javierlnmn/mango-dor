@@ -70,8 +70,10 @@
             </p>
             {% if user.is_authenticated %}
             <div class="max-sm:grid max-sm:place-items-center">
-                <a href="{% url 'voting:voting' %}" class="mt-5 w-56 max-sm:w-11/12 cursor-pointer inline-block px-12 py-6 text-center bg-amber-500 -skew-x-[20deg] hover:bg-gray-900 text-gray-900 hover:text-gray-100 transition-colors">
-                    <span class="inline-block skew-x-[20deg] font-black uppercase">Vota</span>
+                <a href="{% url 'voting:voting' %}" class="max-sm:w-11/12 mx-auto disabled:opacity-50 disabled:bg-gray-900 disabled:text-gray-100 disabled:cursor-not-allowed cursor-pointer inline-block sm:min-w-64 py-5 mt-5 text-center bg-gradient-to-r from-yellow-400 hover:from-gray-900 via-amber-400 hover:via-gray-800 to-orange-400 hover:to-gray-900 -skew-x-[20deg] text-gray-900 hover:text-gray-100">
+                    <span class="inline-block skew-x-[20deg] font-black uppercase text-3xl">
+                        Vota
+                    </span>
                 </a>
             </div>
             {% endif %}
@@ -81,8 +83,10 @@
                 Comprueba los resultados de tus candidatos favoritos por categorías. No se valen <i>lloros</i>.
             </p>
             <div class="max-sm:grid max-sm:place-items-center">
-                <a href="{% url 'voting:voting-results' %}" class="mt-5 w-56 max-sm:w-11/12 cursor-pointer inline-block px-12 py-6 text-center bg-amber-500 -skew-x-[20deg] hover:bg-gray-900 text-gray-900 hover:text-gray-100 transition-colors">
-                    <span class="inline-block skew-x-[20deg] font-black uppercase">Ver resultados</span>
+                <a href="{% url 'voting:voting-results' %}" class="max-sm:w-11/12 mx-auto disabled:opacity-50 disabled:bg-gray-900 disabled:text-gray-100 disabled:cursor-not-allowed cursor-pointer inline-block sm:min-w-64 py-5 mt-5 text-center bg-gradient-to-r from-yellow-400 hover:from-gray-900 via-amber-400 hover:via-gray-800 to-orange-400 hover:to-gray-900 -skew-x-[20deg] text-gray-900 hover:text-gray-100">
+                    <span class="inline-block skew-x-[20deg] font-black uppercase text-3xl">
+                        Ver Resultados
+                    </span>
                 </a>
             </div>
         {% endif %}
