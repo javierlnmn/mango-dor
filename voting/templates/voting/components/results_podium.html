@@ -1,0 +1,33 @@
+<div class="flex flex-col items-center">
+    <h1 class="-mb-8 relative z-30 text-center text-7xl max-md:text-5xl uppercase font-black bg-gradient-to-r from-yellow-400 via-amber-400 to-orange-400 inline-block text-transparent bg-clip-text italic">{{ category.name }}</h1>
+    {% for candidate in candidates|slice:":3" %}
+        <div class="
+            relative w-3/4 max-md:w-5/6 max-sm:w-11/12 max-w-[600px] border-2 border-amber-400/20 border-solid flex flex-col gap-8 items-center p-6 bg-gray-900/20 shadow-lg rounded-lg
+            {% if forloop.counter == 1 %} max-w-[700px] relative z-20 animation-golden-glow
+            {% elif forloop.counter == 2 %} self-start -mt-24 max-md:-mt-14 ml-24 max-xl:ml-36 max-lg:ml-0 z-10 rotate-12
+            {% else %} self-end -mt-24 max-md:-mt-14 mr-24 max-lg:mr-0 z-0 -rotate-12
+            {% endif %}
+        ">
+            <img class="aspect-1 object-contain object-bottom h-[300px] -mb-14" src="{{ candidate.main_image.image.url }}" alt="candidate image">
+            <h4 class="animation-glow w-[120%] text-center text-7xl max-md:text-5xl font-black italic uppercase text-white tracking-[-0.1em]">{{ candidate.name }} {{ candidate.surname }}</h4>
+            {% if forloop.counter == 1 %}
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="absolute -top-14 max-md:-top-10 -right-14 max-md:-right-10 rotate-45 w-28 max-md:w-20 h-28 max-md:h-20 text-amber-300 animation-golden-glow">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                <path d="M12 6l4 6l5 -4l-2 10h-14l-2 -10l5 4z" />
+            </svg>
+            {% elif forloop.counter == 2 %}
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="absolute -top-14 max-md:-top-10 max-sm:top-10 -left-14 max-md:-left-10 -rotate-[30deg] w-28 max-md:w-20 h-28 max-md:h-20 text-slate-300 animation-glow">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                <path d="M13.163 2.168l8.021 5.828c.694 .504 .984 1.397 .719 2.212l-3.064 9.43a1.978 1.978 0 0 1 -1.881 1.367h-9.916a1.978 1.978 0 0 1 -1.881 -1.367l-3.064 -9.43a1.978 1.978 0 0 1 .719 -2.212l8.021 -5.828a1.978 1.978 0 0 1 2.326 0z" />
+                <path d="M10 8h3a1 1 0 0 1 1 1v2a1 1 0 0 1 -1 1h-2a1 1 0 0 0 -1 1v2a1 1 0 0 0 1 1h3" />
+            </svg>
+            {% else %}
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="absolute -top-14 max-md:-top-10 max-sm:top-10 -right-14 max-md:-right-10 rotate-[30deg] w-28 max-md:w-20 h-28 max-md:h-20 text-amber-600 animation-glow">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                <path d="M13.163 2.168l8.021 5.828c.694 .504 .984 1.397 .719 2.212l-3.064 9.43a1.978 1.978 0 0 1 -1.881 1.367h-9.916a1.978 1.978 0 0 1 -1.881 -1.367l-3.064 -9.43a1.978 1.978 0 0 1 .719 -2.212l8.021 -5.828a1.978 1.978 0 0 1 2.326 0z" />
+                <path d="M10 8h2.5a1.5 1.5 0 0 1 1.5 1.5v1a1.5 1.5 0 0 1 -1.5 1.5h-1.5h1.5a1.5 1.5 0 0 1 1.5 1.5v1a1.5 1.5 0 0 1 -1.5 1.5h-2.5" />
+            </svg>
+            {% endif %}
+        </div>
+    {% endfor %}
+</div>

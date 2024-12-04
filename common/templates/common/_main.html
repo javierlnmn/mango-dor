@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" class="bg-gray-800">
+
+{% include 'common/base/head.html' %}
+
+<body class="overflow-x-hidden bg-gradient-to-br from-gray-600 to-gray-800 bg-no-repeat open-sans-400 min-h-svh flex flex-col">
+
+    {% include 'common/base/header.html' %}
+
+    {% block content %}
+    {% endblock %}
+
+    {% include 'common/base/footer.html' %}
+    
+    {% block scripts %}
+    {% endblock %}
+
+</body>
+
+</html>

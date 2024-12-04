@@ -2,7 +2,8 @@ from django.core.cache import cache
 from django.shortcuts import render, redirect
 from django.views.generic import View, ListView, DetailView, TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.utils import timezone
+from django.db.models import Sum, OuterRef, Subquery
+from django.db.models.functions import Coalesce
 
 from common.models import SiteParameters
 
@@ -144,4 +145,41 @@ class VotingResultsView(LoginRequiredMixin, TemplateView):
         if not is_winners_reveal_date_passed:
             return redirect('voting:voting')
         
+        slug = kwargs.get('slug')
+        if not slug:
+            default_slug = Category.objects.first().slug
+            return redirect('voting:voting-results', slug=default_slug)
+        
         return super(VotingResultsView, self).dispatch(*args, **kwargs)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        slug = kwargs.get('slug')
+        category = Category.objects.get(slug=slug)
+
+        total_points_subquery = Vote.objects.filter(
+            candidate=OuterRef('pk'),
+            category=category
+        ).values('candidate').annotate(
+            total_points=Sum('points')
+        ).values('total_points')
+
+        candidates_with_points = Candidate.objects.annotate(
+            total_points=Coalesce(Subquery(total_points_subquery), 0)
+        ).order_by('-total_points')
+        
+        all_categories = list(Category.objects.all().order_by('id'))
+        category_index = all_categories.index(category)
+
+        previous_category = all_categories[(category_index - 1) % len(all_categories)]
+        next_category = all_categories[(category_index + 1) % len(all_categories)]
+
+        context = {
+            'category': category,
+            'candidates': candidates_with_points,
+            'previous_category_slug': previous_category.slug,
+            'next_category_slug': next_category.slug,
+        }
+
+        return context
