@@ -60,10 +60,12 @@
         if (Math.random() < 0.1) {
             jsConfetti.addConfetti({
                 emojis: ['🥭', '✨', '💫'],
-                emojiSize: 30,
+                emojiSize: 50,
             });
         } else {
-            jsConfetti.addConfetti();
+            jsConfetti.addConfetti({
+                confettiRadius: 4,
+            });
         }
     })
 </script>
