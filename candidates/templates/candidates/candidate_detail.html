@@ -8,16 +8,16 @@
 
         <div class="flex max-md:flex-col items-center">
             <div class="w-1/3 max-md:w-full min-w-60 flex flex-col items-center">
-                <img class="aspect-1 object-contain object-bottom -mb-10 max-w-[330px] max-h-[330px]" src="{{ candidate.main_image.image.url }}" alt="candidate image">
+                <img class="aspect-1 object-contain object-bottom -mb-10 max-w-[330px] max-h-[330px] w-full" src="{{ candidate.main_image.image.url }}" alt="candidate image">
                 <h4 class="animation-glow w-[120%] text-center text-7xl max-md:text-6xl font-black italic uppercase text-white tracking-[-0.1em]">{{ candidate.name }} {{ candidate.surname }}</h4>
             </div>
             <div class="w-2/3 max-md:w-full flex flex-col gap-6 col-span-2 h-full p-6 border-2 border-amber-400/20 border-solid bg-gray-900/20 shadow-lg rounded-lg">
                 <p class="text-white font-bold">{% if candidate.description %} {{ candidate.description }} {% else %} Pues de este no sabemos nada. Igual se ha colao... {% endif %}</p>
-                <div class="text-white">
-                    {% if candidate.education %} <p class="text-white">Estudios: {{ candidate.education }}</p> {% endif %}
-                    {% if candidate.experience %} <p class="text-white">Experiencia laboral: {{ candidate.experience }}</p> {% endif %}
-                    {% if candidate.skills %} <p class="text-white">Habilidades: {{ candidate.skills }}</p> {% endif %}
-                    {% if candidate.languages %} <p class="text-white">Idiomas: {{ candidate.languages }}</p> {% endif %}
+                <div class="text-white flex flex-col gap-3">
+                    {% if candidate.education %} <p class="text-white"><b>Estudios</b>: {{ candidate.education }}</p> {% endif %}
+                    {% if candidate.experience %} <p class="text-white"><b>Experiencia laboral</b>: {{ candidate.experience }}</p> {% endif %}
+                    {% if candidate.skills %} <p class="text-white"><b>Habilidades</b>: {{ candidate.skills }}</p> {% endif %}
+                    {% if candidate.languages %} <p class="text-white"><b>Idiomas</b>: {{ candidate.languages }}</p> {% endif %}
                 </div>
                 <div class="grid grid-cols-2 gap-4 max-sm:grid-cols-1 text-white">
                     <div class="flex items-center gap-2">
