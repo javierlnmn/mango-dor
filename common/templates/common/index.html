@@ -1,4 +1,4 @@
-{% extends 'web/_main.html' %}
+{% extends 'common/_main.html' %}
 {% load static %}
 
 {% block content %}
@@ -22,10 +22,14 @@
 
     <section class="w-11/12 max-w-[1200px] mx-auto py-10 text-gray-100">
         <p class="text-center">El Valle del Miro nos unió como <b>compañeros</b>, la vida como <b>familia</b>.<br><i>Estos premios son para celebrarlo.</i></p>
-        <h1 class="uppercase text-center text-4xl font-black mt-4">Bienvenidos a los <span class="bg-gradient-to-r from-yellow-400 via-amber-400 to-orange-400 inline-block text-transparent bg-clip-text italic">Mango d'Or Awards</span></h1>
+        {% if settings.is_winners_reveal_date_passed %}
+            <h1 class="uppercase text-center text-4xl font-black mt-4">¡Los <span class="bg-gradient-to-r from-yellow-400 via-amber-400 to-orange-400 inline-block text-transparent bg-clip-text italic">Mango d'Or Awards</span> ya están <a class="transition-colors !text-amber-300 hover:!text-amber-500" href="{% url 'voting:voting-results' %}">aquí</a>!</h1>
+        {% else %}
+            <h1 class="uppercase text-center text-4xl font-black mt-4">Bienvenidos a los <span class="bg-gradient-to-r from-yellow-400 via-amber-400 to-orange-400 inline-block text-transparent bg-clip-text italic">Mango d'Or Awards</span></h1>
+        {% endif %}
     </section>
 
-   {% include 'web/components/countdown.html' %}
+   {% include 'common/components/countdown.html' %}
 
     <section class="w-11/12 max-w-[1200px] mx-auto py-10 text-gray-100">
         <h4 class="text-3xl max-md:text-center font-black uppercase">¿Cómo funcionan los <span class="bg-gradient-to-r from-yellow-400 via-amber-400 to-orange-400 inline-block text-transparent bg-clip-text italic">Mango d'Or Awards</span>?</h4>
@@ -70,8 +74,10 @@
             </p>
             {% if user.is_authenticated %}
             <div class="max-sm:grid max-sm:place-items-center">
-                <a href="{% url 'voting:voting' %}" class="mt-5 w-56 max-sm:w-11/12 cursor-pointer inline-block px-12 py-6 text-center bg-amber-500 -skew-x-[20deg] hover:bg-gray-900 text-gray-900 hover:text-gray-100 transition-colors">
-                    <span class="inline-block skew-x-[20deg] font-black uppercase">Vota</span>
+                <a href="{% url 'voting:voting' %}" class="max-sm:w-11/12 mx-auto disabled:opacity-50 disabled:bg-gray-900 disabled:text-gray-100 disabled:cursor-not-allowed cursor-pointer inline-block sm:min-w-64 py-5 mt-5 text-center bg-gradient-to-r from-yellow-400 hover:from-gray-900 via-amber-400 hover:via-gray-800 to-orange-400 hover:to-gray-900 -skew-x-[20deg] text-gray-900 hover:text-gray-100">
+                    <span class="inline-block skew-x-[20deg] font-black uppercase text-3xl">
+                        Vota
+                    </span>
                 </a>
             </div>
             {% endif %}
@@ -81,8 +87,10 @@
                 Comprueba los resultados de tus candidatos favoritos por categorías. No se valen <i>lloros</i>.
             </p>
             <div class="max-sm:grid max-sm:place-items-center">
-                <a href="{% url 'voting:voting-results' %}" class="mt-5 w-56 max-sm:w-11/12 cursor-pointer inline-block px-12 py-6 text-center bg-amber-500 -skew-x-[20deg] hover:bg-gray-900 text-gray-900 hover:text-gray-100 transition-colors">
-                    <span class="inline-block skew-x-[20deg] font-black uppercase">Ver resultados</span>
+                <a href="{% url 'voting:voting-results' %}" class="max-sm:w-11/12 mx-auto disabled:opacity-50 disabled:bg-gray-900 disabled:text-gray-100 disabled:cursor-not-allowed cursor-pointer inline-block sm:min-w-64 py-5 px-6 mt-5 text-center bg-gradient-to-r from-yellow-400 hover:from-gray-900 via-amber-400 hover:via-gray-800 to-orange-400 hover:to-gray-900 -skew-x-[20deg] text-gray-900 hover:text-gray-100">
+                    <span class="inline-block skew-x-[20deg] font-black uppercase text-3xl">
+                        Ver Resultados
+                    </span>
                 </a>
             </div>
         {% endif %}
@@ -93,6 +101,23 @@
 {% endblock %}
 
 {% block scripts %}
-    {% comment %} {% load static %}
-    <script type="text/javascript" src="{% static 'scripts/index/index.js' %}"></script> {% endcomment %}
+
+{% if settings.is_winners_reveal_date_passed %}
+    <script>
+        const jsConfetti = new JSConfetti();
+        if (Math.random() < 0.1) {
+            jsConfetti.addConfetti({
+                emojis: ['🥭', '🥭', '✨', '💫'],
+                emojiSize: 50,
+                confettiNumber: 150,
+            });
+        } else {
+            jsConfetti.addConfetti({
+                confettiRadius: 4,
+                confettiNumber: 500,
+            });
+        }
+    </script>
+{% endif %}
+
 {% endblock %}

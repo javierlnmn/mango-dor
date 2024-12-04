@@ -1,4 +1,4 @@
-{% extends 'web/_empty.html' %}
+{% extends 'common/_empty.html' %}
 {% load static %}
 
 {% block content %}
@@ -11,8 +11,6 @@
     </div>
     
     <section class="w-11/12 max-w-[1200px] mx-auto">
-
-        {% comment %} WE ASSUME THE VOTING POINTS WILL BE 1, 2 AND 4 {% endcomment %}
 
         <form action="" method="POST">
             {% csrf_token %}
@@ -28,9 +26,9 @@
                             <button
                                 type="button"
                                 data-vote-value="{{voting_point}}"
-                                class="transition-colors py-2 px-1 flex-1 min-w-[100px] uppercase font-black text-xl rounded-md text-gray-200 bg-gray-900/30"
+                                class="transition-colors py-2 px-1 flex-1 min-w-[100px] uppercase font-black text-lg rounded-md text-gray-200 bg-gray-900/30"
                             >
-                                {{voting_point}} point{{voting_point|pluralize}}
+                                {{voting_point}} punto{{voting_point|pluralize}}
                             </button>
                         {% endfor %}
                     </div>
@@ -45,7 +43,7 @@
             
 
             <div class="w-full">
-                <button disabled type="submit" class="disabled:opacity-50 disabled:bg-gray-900 disabled:text-gray-100 disabled:cursor-not-allowed mt-5 w-full cursor-pointer inline-block px-12 py-6 my-6 text-center bg-amber-500 -skew-x-[20deg] hover:bg-gray-900 text-gray-900 hover:text-gray-100 transition-colors">
+                <button disabled type="submit" class="w-full disabled:opacity-50 disabled:cursor-not-allowed mt-5 cursor-pointer inline-block px-12 py-6 my-6 text-center bg-gradient-to-r from-yellow-400 disabled:hover:from-yellow-400 hover:from-gray-900 via-amber-400 disabled:hover:via-amber-400 hover:via-gray-800 to-orange-400 disabled:hover:to-orange-400 hover:to-gray-900 -skew-x-[20deg] text-gray-900 disabled:hover:text-gray-900 hover:text-gray-100">
                     <span class="inline-block skew-x-[20deg] font-black uppercase text-3xl">
                         {% if current_category_number < total_categories_number%}
                             Siguiente categoría

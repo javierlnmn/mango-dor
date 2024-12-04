@@ -75,3 +75,25 @@
 .animation-glow {
     animation: glow 1.5s infinite alternate-reverse ease-in-out;
 }
+
+@keyframes golden-glow {
+    from {
+        filter: drop-shadow(0 0 3px rgba(250, 203, 22, 0.3));
+    }
+    to {
+        filter: drop-shadow(0 0 50px rgba(240, 218, 129, 0.9));
+    }
+}
+
+.animation-golden-glow {
+    animation: golden-glow 1.5s infinite alternate-reverse ease-in-out;
+}
+
+@keyframes width-animate {
+    0% {
+        width: 0%;
+    }
+    100% {
+        width: var(--final-width);
+    }
+}

@@ -1,9 +1,9 @@
-{% extends 'web/_main.html' %}
+{% extends 'common/_main.html' %}
 {% load static %}
 
 {% block content %}
 
-<main class="grid place-items-center">
+<main class="flex-1 grid place-items-center">
 
     <section class="w-11/12 max-w-[1200px] mx-auto py-6">
         <h1 class="text-center font-black text-4xl uppercase text-gray-100">Inicio de sesión</h1>
@@ -23,8 +23,10 @@
                     </div>
     
                     <div>
-                        <button type="submit" class="w-full cursor-pointer inline-block px-12 py-5 text-center bg-amber-500 -skew-x-[20deg] hover:bg-gray-900 text-gray-900 hover:text-gray-100 transition-colors">
-                            <span class="inline-block skew-x-[20deg] font-black uppercase">Iniciar Sesión</span>
+                        <button type="submit" class="w-full disabled:opacity-50 disabled:bg-gray-900 disabled:text-gray-100 disabled:cursor-not-allowed cursor-pointer inline-block px-12 py-4 text-center bg-gradient-to-r from-yellow-400 hover:from-gray-900 via-amber-400 hover:via-gray-800 to-orange-400 hover:to-gray-900 -skew-x-[20deg] text-gray-900 hover:text-gray-100">
+                            <span class="inline-block skew-x-[20deg] font-black uppercase text-2xl max-md:text-xl">
+                                Iniciar Sesión
+                            </span>
                         </button>
                     </div>
                 </div>
