@@ -2,7 +2,6 @@
 {% load static %}
 
 {% block content %}
-
 <main class="my-6 flex-1 flex flex-col">
     <div class="w-11/12 max-w-[1200px] mx-auto flex-1 flex flex-col gap-6">
 
@@ -29,20 +28,42 @@
             </a>
         </div>
 
-        <div id="all-results-container" class="flex-1 flex flex-col">
+        <div class="flex-1 flex flex-col text-gray-100">
             <div class="w-full flex flex-col gap-8">
                 
                 {% include 'voting/components/results_podium.html' %}
 
-                <div>     
-                    {% for candidate in candidates %}
-                    <li>{{ candidate.name }} {{ candidate.surname }} - {{ candidate.total_points }} points</li>
-                    {% endfor %}
-                </div>
+                <button id="celebrate-results" class="mt-16 -mb-8 w-full max-w-96 mx-auto disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer inline-block px-12 py-6 my-6 text-center bg-gradient-to-r from-yellow-400 disabled:hover:from-yellow-400 hover:from-gray-900 via-amber-400 disabled:hover:via-amber-400 hover:via-gray-800 to-orange-400 disabled:hover:to-orange-400 hover:to-gray-900 -skew-x-[20deg] text-gray-900 disabled:hover:text-gray-900 hover:text-gray-100">
+                    <span class="inline-block skew-x-[20deg] font-black uppercase text-3xl">
+                        ¡Celebrémoslo!
+                    </span>
+                </button>
+
+                {% include 'voting/components/results_scores_progress.html' %}
 
             </div>
         </div>
     </div>
 </main>
     
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/js-confetti@latest/dist/js-confetti.browser.js"></script>
+<script type="module">
+    const jsConfetti = new JSConfetti();
+
+    const celebrateResultsButton = document.getElementById('celebrate-results');
+
+    celebrateResultsButton.addEventListener('click', () => {
+        if (Math.random() < 0.1) {
+            jsConfetti.addConfetti({
+                emojis: ['🥭', '✨', '💫'],
+                emojiSize: 30,
+            });
+        } else {
+            jsConfetti.addConfetti();
+        }
+    })
+</script>
 {% endblock %}
