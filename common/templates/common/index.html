@@ -22,7 +22,11 @@
 
     <section class="w-11/12 max-w-[1200px] mx-auto py-10 text-gray-100">
         <p class="text-center">El Valle del Miro nos unió como <b>compañeros</b>, la vida como <b>familia</b>.<br><i>Estos premios son para celebrarlo.</i></p>
-        <h1 class="uppercase text-center text-4xl font-black mt-4">Bienvenidos a los <span class="bg-gradient-to-r from-yellow-400 via-amber-400 to-orange-400 inline-block text-transparent bg-clip-text italic">Mango d'Or Awards</span></h1>
+        {% if settings.is_winners_reveal_date_passed %}
+            <h1 class="uppercase text-center text-4xl font-black mt-4">¡Los <span class="bg-gradient-to-r from-yellow-400 via-amber-400 to-orange-400 inline-block text-transparent bg-clip-text italic">Mango d'Or Awards</span> ya están <a class="transition-colors !text-amber-300 hover:!text-amber-500" href="{% url 'voting:voting-results' %}">aquí</a>!</h1>
+        {% else %}
+            <h1 class="uppercase text-center text-4xl font-black mt-4">Bienvenidos a los <span class="bg-gradient-to-r from-yellow-400 via-amber-400 to-orange-400 inline-block text-transparent bg-clip-text italic">Mango d'Or Awards</span></h1>
+        {% endif %}
     </section>
 
    {% include 'common/components/countdown.html' %}
@@ -97,6 +101,20 @@
 {% endblock %}
 
 {% block scripts %}
-    {% comment %} {% load static %}
-    <script type="text/javascript" src="{% static 'scripts/index/index.js' %}"></script> {% endcomment %}
+
+{% if settings.is_winners_reveal_date_passed %}
+    <script>
+        const jsConfetti = new JSConfetti();
+
+        if (Math.random() < 0.1) {
+            jsConfetti.addConfetti({
+                emojis: ['🥭', '✨', '💫'],
+                emojiSize: 30,
+            });
+        } else {
+            jsConfetti.addConfetti();
+        }
+    </script>
+{% endif %}
+
 {% endblock %}

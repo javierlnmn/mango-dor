@@ -37,6 +37,7 @@
         </div>
     </div>
 
+    {% if not settings.is_winners_reveal_date_passed %}
     <script>
         function startCountdown(targetDate) {
             const updateTimer = () => {
@@ -70,4 +71,5 @@
         const targetDate = new Date("{{settings.winners_reveal_date }}".replace('.', '')); // Set your target date and time here
         startCountdown(targetDate)
     </script>
+    {% endif %}
 </section>
