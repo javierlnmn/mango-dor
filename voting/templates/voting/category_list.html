@@ -11,16 +11,11 @@
             <p class="text-center text-lg italic text-gray-400">Todas y cada una de nuestras categorías han sido confeccionadas por los maestros cerveceros.</p>
         </div>
 
-        <div class="grid grid-cols-3 mt-8 gap-8 max-xl:grid-cols-2 max-md:flex max-md:flex-col">
+        <div class="grid grid-cols-3 mt-8 gap-6 max-xl:grid-cols-2 max-md:flex max-md:flex-col">
             {% for category in page_obj %}
                 <div class="border-2 border-amber-400/20 border-solid flex flex-col gap-6 items-center p-6 bg-gray-900/20 shadow-lg rounded-lg">
                     <h4 class="animation-glow w-[120%] text-center text-6xl max-md:text-5xl font-black italic uppercase text-white tracking-[-0.1em]">{{ category.name }}</h4>
                     <p class="text-gray-300">{{ category.description }}</p>
-                    <a href="{% url 'voting:category-detail' category.slug %}" class="w-full disabled:opacity-50 disabled:bg-gray-900 disabled:text-gray-100 disabled:cursor-not-allowed cursor-pointer inline-block px-8 py-4 text-center bg-gradient-to-r from-yellow-400 hover:from-gray-900 via-amber-400 hover:via-gray-800 to-orange-400 hover:to-gray-900 -skew-x-[20deg] text-gray-900 hover:text-gray-100">
-                        <span class="inline-block skew-x-[20deg] font-black uppercase text-2xl">
-                            Ver Categoría
-                        </span>
-                    </a>
                 </div>
             {% empty %}
                 <p class="my-6 text-white font-bold text-lg">¡Vaya! Todavía no hay categorías.</p>
