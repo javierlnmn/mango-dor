@@ -1,0 +1,44 @@
+<div class="mt-20 flex flex-col gap-4">  
+    <h4 class="text-3xl max-md:text-center font-black uppercase">Conteo de los resultados:</h4>
+
+    <div id="score-progress-container" class="flex flex-col gap-6">
+        {% for candidate in candidates %}
+        <div class="flex gap-3 items-center h-6">
+            <p class="w-1/6 max-md:w-1/4">{{ candidate.name }} {{ candidate.surname }}</p>
+            <div class="flex-1 bg-gray-900/20 h-4 rounded-full overflow-hidden relative">
+                <span 
+                    data-score-progress="{{ candidate.total_points }}"
+                    class="
+                        animation-score-progress absolute top-0 left-0 bg-gray-200/30 rounded-full h-full
+                    {% if forloop.counter == 1 %} !bg-amber-300
+                    {% elif forloop.counter == 2 %} !bg-gray-300
+                    {% elif forloop.counter == 3 %} !bg-amber-600
+                    {% endif %}
+                        "
+                ></span>
+            </div>
+            <p>{{ candidate.total_points }}</p>
+        </div>
+        {% endfor %}
+    </div>
+    <script>
+        const scoresBars = document.querySelectorAll('[data-score-progress]');
+        const maxScore = {{ candidates.0.total_points }};
+        const scoreProgressContainer = document.getElementById('score-progress-container');
+
+        document.addEventListener('scroll', () => {
+            scoresBars.forEach((scoreBar) => {
+                const bounding = scoreBar.getBoundingClientRect();
+                const distanceToBottomLimit = window.innerHeight - bounding.top;
+        
+                if (distanceToBottomLimit > 40) {
+                    const candidateScore = scoreBar.dataset.scoreProgress;
+                    const percentage = (candidateScore / maxScore) * 100;
+        
+                    scoreBar.style.setProperty('--final-width', `${percentage !== 0 ? percentage : 2}%`);
+                    scoreBar.style.animation = `width-animate 1.5s ease-out forwards`;
+                }
+            });
+        });
+    </script>
+</div>

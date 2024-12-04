@@ -88,3 +88,12 @@
 .animation-golden-glow {
     animation: golden-glow 1.5s infinite alternate-reverse ease-in-out;
 }
+
+@keyframes width-animate {
+    0% {
+        width: 0%;
+    }
+    100% {
+        width: var(--final-width);
+    }
+}
