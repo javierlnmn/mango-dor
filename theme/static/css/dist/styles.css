@@ -2262,6 +2262,15 @@ select {
   .max-sm\:place-items-center {
     place-items: center;
   }
+
+  .max-sm\:gap-2 {
+    gap: 0.5rem;
+  }
+
+  .max-sm\:px-2 {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
 }
 
 @media (min-width: 640px) {
