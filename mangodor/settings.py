@@ -155,13 +155,17 @@ db = {
 }
 
 if use_cloud_db:
+    # db = {
+    #     'ENGINE': 'django.db.backends.mysql',
+    #     'NAME': os.getenv('DB_NAME'),
+    #     'USER': os.getenv('DB_USER'),
+    #     'PASSWORD': os.getenv('DB_PASSWORD'),
+    #     'HOST': os.getenv('DB_HOST'),
+    #     'PORT': os.getenv('DB_PORT'),
+    # }
     db = {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.getenv('DB_NAME'),
-        'USER': os.getenv('DB_USER'),
-        'PASSWORD': os.getenv('DB_PASSWORD'),
-        'HOST': os.getenv('DB_HOST'),
-        'PORT': os.getenv('DB_PORT'),
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join('/media/mangodor/db', "db.sqlite3"),
     }
 
 DATABASES = {
@@ -228,4 +232,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = "common:index"
 LOGIN_URL = "users:login"
 LOGOUT_REDIRECT_URL = "common:index"
-LOGOUT_URL = "common:index"
+LOGOUT_URL = "users:logout"
