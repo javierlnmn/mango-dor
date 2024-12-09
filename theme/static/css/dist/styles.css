@@ -1818,26 +1818,6 @@ select {
   transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
 }
 
-.border-glow-amber-600\/60 {
-  border-color: rgb(217 119 6 / 0.6);
-  box-shadow: inset 0px 0px 0.5em 0px rgb(217 119 6 / 0.6), 0px 0px 0.5em 0px rgb(217 119 6 / 0.6);
-}
-
-.border-glow-emerald-600\/60 {
-  border-color: rgb(5 150 105 / 0.6);
-  box-shadow: inset 0px 0px 0.5em 0px rgb(5 150 105 / 0.6), 0px 0px 0.5em 0px rgb(5 150 105 / 0.6);
-}
-
-.border-glow-red-600\/60 {
-  border-color: rgb(220 38 38 / 0.6);
-  box-shadow: inset 0px 0px 0.5em 0px rgb(220 38 38 / 0.6), 0px 0px 0.5em 0px rgb(220 38 38 / 0.6);
-}
-
-.border-glow-sky-600\/60 {
-  border-color: rgb(2 132 199 / 0.6);
-  box-shadow: inset 0px 0px 0.5em 0px rgb(2 132 199 / 0.6), 0px 0px 0.5em 0px rgb(2 132 199 / 0.6);
-}
-
 .open-sans-300 {
   font-family: "Open Sans", sans-serif;
   font-optical-sizing: auto;
