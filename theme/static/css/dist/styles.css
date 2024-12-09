@@ -1736,6 +1736,11 @@ select {
   color: rgb(248 113 113 / var(--tw-text-opacity));
 }
 
+.text-red-600 {
+  --tw-text-opacity: 1;
+  color: rgb(220 38 38 / var(--tw-text-opacity));
+}
+
 .text-sky-400 {
   --tw-text-opacity: 1;
   color: rgb(56 189 248 / var(--tw-text-opacity));
@@ -1816,6 +1821,26 @@ select {
 
 .ease-out {
   transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+}
+
+.border-glow-amber-600\/60 {
+  border-color: rgb(217 119 6 / 0.6);
+  box-shadow: inset 0px 0px 0.5em 0px rgb(217 119 6 / 0.6), 0px 0px 0.5em 0px rgb(217 119 6 / 0.6);
+}
+
+.border-glow-emerald-600\/60 {
+  border-color: rgb(5 150 105 / 0.6);
+  box-shadow: inset 0px 0px 0.5em 0px rgb(5 150 105 / 0.6), 0px 0px 0.5em 0px rgb(5 150 105 / 0.6);
+}
+
+.border-glow-red-600\/60 {
+  border-color: rgb(220 38 38 / 0.6);
+  box-shadow: inset 0px 0px 0.5em 0px rgb(220 38 38 / 0.6), 0px 0px 0.5em 0px rgb(220 38 38 / 0.6);
+}
+
+.border-glow-sky-600\/60 {
+  border-color: rgb(2 132 199 / 0.6);
+  box-shadow: inset 0px 0px 0.5em 0px rgb(2 132 199 / 0.6), 0px 0px 0.5em 0px rgb(2 132 199 / 0.6);
 }
 
 .open-sans-300 {
@@ -1913,6 +1938,32 @@ select {
 
   100% {
     width: var(--final-width);
+  }
+}
+
+.animation-shake {
+  animation: horizontal-shaking .3s forwards;
+}
+
+@keyframes horizontal-shaking {
+  0% {
+    transform: translateX(0)
+  }
+
+  25% {
+    transform: translateX(15px)
+  }
+
+  50% {
+    transform: translateX(-15px)
+  }
+
+  75% {
+    transform: translateX(15px)
+  }
+
+  100% {
+    transform: translateX(0)
   }
 }
 
