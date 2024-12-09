@@ -8,7 +8,7 @@
     <section class="w-11/12 max-w-[1200px] mx-auto py-6">
         <h1 class="text-center font-black text-4xl uppercase text-gray-100">Inicio de sesión</h1>
     
-        <div class="max-w-[600px] mx-auto bg-gray-900/20 rounded-lg p-8 mt-6">
+        <div class="{% if form.errors %} animation-shake {% endif %} max-w-[600px] mx-auto bg-gray-900/20 rounded-lg p-8 mt-6">
             <form method="POST" action="{% url 'users:login' %}">
                 {% csrf_token %}
                 <div class="flex flex-col gap-8">
@@ -22,6 +22,10 @@
                         <label for="password" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-amber-600 peer-focus:dark:text-amber-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Password</label>
                     </div>
     
+                    {% if form.errors %}
+                    <p class="text-red-600">Usuario y/o contraseña incorrectos, pringao.</p>
+                    {% endif %}
+
                     <div>
                         <button type="submit" class="w-full disabled:opacity-50 disabled:bg-gray-900 disabled:text-gray-100 disabled:cursor-not-allowed cursor-pointer inline-block px-12 py-4 text-center bg-gradient-to-r from-yellow-400 hover:from-gray-900 via-amber-400 hover:via-gray-800 to-orange-400 hover:to-gray-900 -skew-x-[20deg] text-gray-900 hover:text-gray-100">
                             <span class="inline-block skew-x-[20deg] font-black uppercase text-2xl max-md:text-xl">
@@ -31,7 +35,7 @@
                     </div>
                 </div>
             </form>
-        </div>    
+        </div>
     </section>
 
 </main>
